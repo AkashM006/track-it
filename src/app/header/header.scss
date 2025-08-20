@@ -1,0 +1,34 @@
+@use 'colors' as *;
+
+.header {
+  background: $primary;
+  border-bottom-left-radius: 1.5em;
+  border-bottom-right-radius: 1.5em;
+}
+
+.header-container {
+  padding-block: 2.5em 1.75em;
+  color: $on-primary;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  .logo-icon-container {
+    border-radius: 0.5em;
+    background-color: $on-primary-container;
+    padding: 0.5em;
+    .logo-icon {
+      display: block;
+      font-size: 1.5rem;
+    }
+  }
+}
+
+.info-container {
+  margin-top: 1.5em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
