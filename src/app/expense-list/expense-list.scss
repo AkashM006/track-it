@@ -1,0 +1,61 @@
+@use 'colors' as *;
+
+.body-container {
+  padding-block: 2em 6em;
+}
+.no-expenses {
+  color: rgba($accent, 0.8);
+  text-align: center;
+  font-style: italic;
+}
+
+.expense-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  margin-top: 2em;
+  .expense {
+    background-color: $surface-light;
+    border-radius: 1em;
+    padding: 1em 1.5em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.left-container {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  .icon-container {
+    .icon {
+      display: block;
+      font-size: 1.75rem;
+    }
+  }
+
+  .title-container {
+    .title {
+      font-size: 1rem;
+    }
+    .category {
+      margin-top: 0.25em;
+      font-size: 0.85rem;
+      color: $gray;
+    }
+  }
+}
+
+.right-container {
+  .amount {
+    text-align: right;
+  }
+  .date {
+    margin-top: 0.25em;
+    font-size: 0.85rem;
+    color: $gray;
+  }
+}

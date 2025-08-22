@@ -1,10 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { Header } from './header/header';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { ionAddOutline } from '@ng-icons/ionicons';
+import { FormModal } from './form-modal/form-modal';
+import { ExpenseList } from './expense-list/expense-list';
 
 @Component({
   selector: 'app-root',
-  imports: [Header],
+  imports: [Header, NgIcon, FormModal, ExpenseList],
   templateUrl: './app.html',
   styleUrl: './app.scss',
+  viewProviders: [provideIcons({ ionAddOutline })],
 })
-export class App {}
+export class App {
+  isFormOpen = signal(false);
+
+  onNewExpense() {
+    this.isFormOpen.set(true);
+  }
+
+  onCloseExpenseForm() {
+    this.isFormOpen.set(false);
+  }
+}

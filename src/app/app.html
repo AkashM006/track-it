@@ -1,3 +1,11 @@
 <app-header />
 
-<p>app works!</p>
+@if(isFormOpen()) {
+<app-form-modal (close)="onCloseExpenseForm()" />
+}
+
+<app-expense-list />
+
+<button class="add-btn" (click)="onNewExpense()">
+  <ng-icon name="ionAddOutline" class="icon" />
+</button>

@@ -1,0 +1,17 @@
+@use 'colors' as *;
+
+.add-btn {
+  background: $primary;
+  color: $on-primary;
+  padding: 1em;
+  border-radius: 1em;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9;
+  cursor: pointer;
+  .icon {
+    display: block;
+    font-size: 1.75rem;
+  }
+}

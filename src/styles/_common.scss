@@ -1,5 +1,84 @@
+@use 'colors' as *;
+
 .container {
   width: 95%;
   max-width: 1440px;
   margin: 0 auto;
+}
+
+button {
+  border: none;
+  outline: none;
+  transition-property: all;
+  transition-duration: 100ms;
+  transition-timing-function: ease-in-out;
+  &:focus {
+    outline: 1px solid $primary-clr;
+    outline-offset: 2px;
+  }
+  &:disabled {
+    opacity: 0.6 !important;
+    cursor: auto !important;
+  }
+}
+
+input {
+  font-family: 'Lato', sans-serif;
+  font-style: normal;
+}
+
+.btn {
+  border-radius: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0.5em;
+  &.btn-secondary {
+    background: $surface-dark;
+    color: $on-surface-dark;
+  }
+  &.btn-primary {
+    background: $primary;
+    color: $on-primary;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+
+  label {
+    font-weight: bold;
+    font-size: 0.75rem;
+    color: $accent;
+  }
+  .form-input {
+    $border-radius: 0.5em;
+    border: 1px solid rgba($gray, 0.4);
+    border-radius: $border-radius;
+    display: flex;
+    align-items: center;
+
+    transition-property: all;
+    transition-duration: 100ms;
+
+    .prefix {
+      color: $gray;
+      padding-left: 0.5em;
+    }
+    input {
+      padding: 0.5em;
+      border-radius: inherit;
+      width: 100%;
+      border: none;
+      background-color: $surface;
+      &:focus {
+        outline: none;
+      }
+    }
+    &:focus-within {
+      outline: 2px solid $primary-clr;
+      outline-offset: 2px;
+    }
+  }
 }

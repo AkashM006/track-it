@@ -1,0 +1,62 @@
+<div class="modal" (click)="onClose()">
+  <div class="content" (click)="$event.stopPropagation()">
+    <button (click)="onClose()" class="close-icon-btn">
+      <ng-icon name="ionCloseOutline" class="close-icon" />
+    </button>
+    <h3 class="title">Add New Expense</h3>
+    <form class="form" #newExpenseForm="ngForm" (ngSubmit)="onSubmit(); newExpenseForm.reset()">
+      <div class="form-group">
+        <label for="expense-name">Expense Name</label>
+        <div class="form-input">
+          <input
+            type="text"
+            name="expense-name"
+            id="expense-name"
+            placeholder="Coffee, lunch, gas..."
+            required
+            [(ngModel)]="expenseForm().name"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="expense-amount">Amount</label>
+        <div class="form-input">
+          <span class="prefix">$</span>
+          <input
+            type="number"
+            name="expense-amount"
+            id="expense-amount"
+            placeholder="0.00"
+            required
+            [(ngModel)]="expenseForm().amount"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="expense-category">Category</label>
+        <div class="categories-container">
+          @for(category of categories(); track category.id) {
+          <button
+            type="button"
+            class="category-item"
+            [class.selected]="expenseForm().selectedCategory.id === category.id"
+            (click)="onSelectCategory(category)"
+          >
+            <ng-icon class="icon" [name]="category.iconName" />
+            <p>{{ category.name }}</p>
+          </button>
+          }
+        </div>
+      </div>
+
+      <div class="btns-container">
+        <button type="button" class="btn btn-secondary" (click)="onClose()">Cancel</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!newExpenseForm.form.valid">
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
