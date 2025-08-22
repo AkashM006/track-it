@@ -1,0 +1,11 @@
+Week 1:
+August 20:
+* Header UI
+
+August 21:
+* Form Modal UI
+* Expenses list UI
+
+August 22:
+* Integrating app with services
+* Storing data in local storage
