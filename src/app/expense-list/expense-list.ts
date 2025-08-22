@@ -9,11 +9,11 @@ import {
   ionEllipsisHorizontalOutline,
   ionFastFoodOutline,
 } from '@ng-icons/ionicons';
-import { DatePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-expense-list',
-  imports: [NgIcon, DatePipe],
+  imports: [NgIcon, DatePipe, CurrencyPipe],
   templateUrl: './expense-list.html',
   styleUrl: './expense-list.scss',
   viewProviders: [

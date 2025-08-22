@@ -6,7 +6,7 @@ const EXPENSES: IExpense[] = [
   {
     id: '1',
     name: 'BreakFast',
-    amount: 100,
+    amount: 120000,
     category: CATEGORIES[0],
     date: new Date('2025-08-21T00:00:00Z'),
   },
@@ -46,6 +46,10 @@ class ExpenseService {
 
   get expenses() {
     return this.expensesSignal.asReadonly();
+  }
+
+  addExpense(newExpense: IExpense) {
+    this.expensesSignal.update((prev) => [newExpense, ...prev]);
   }
 }
 
