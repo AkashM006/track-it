@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { ionTrendingDownOutline, ionWalletOutline } from '@ng-icons/ionicons';
+import ExpenseService from '../expense.service';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-header',
-  imports: [NgIcon],
+  imports: [NgIcon, CurrencyPipe],
   templateUrl: './header.html',
   styleUrl: './header.scss',
   viewProviders: [
@@ -14,4 +16,9 @@ import { ionTrendingDownOutline, ionWalletOutline } from '@ng-icons/ionicons';
     }),
   ],
 })
-export class Header {}
+export class Header {
+  expenseService = inject(ExpenseService);
+
+  totalAmount = this.expenseService.totalExpense;
+  expensesCount = this.expenseService.expensesCount;
+}
