@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import ExpenseService from '../expense.service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
@@ -12,6 +12,8 @@ import {
 } from '@ng-icons/ionicons';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { IExpense } from '../types/expense';
+import { ICategory } from '../types/category';
+import CATEGORIES from '../categories';
 
 @Component({
   selector: 'app-expense-list',
@@ -32,9 +34,27 @@ import { IExpense } from '../types/expense';
 })
 export class ExpenseList {
   expenseService = inject(ExpenseService);
-  expenses = this.expenseService.expenses;
+  selectedCategory = signal<string>('all');
+  categories = signal<ICategory[]>(CATEGORIES);
+
+  expenses = computed(() => {
+    const allExpenses = this.expenseService.expenses();
+    const selectedCategory = this.selectedCategory();
+
+    if (selectedCategory === 'all') return allExpenses;
+
+    return allExpenses.filter((expense) => expense.category.name === selectedCategory);
+  });
 
   onDeleteExpense(id: IExpense['id']) {
     this.expenseService.deleteExpense(id);
+  }
+
+  onCategoryChanged(event: Event) {
+    const target = event.target as HTMLSelectElement;
+
+    const selectedValue = target.value;
+
+    this.selectedCategory.set(selectedValue);
   }
 }

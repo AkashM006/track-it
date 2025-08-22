@@ -9,3 +9,4 @@ August 21:
 August 22:
 * Integrating app with services
 * Storing data in local storage
+* Fitering based on category

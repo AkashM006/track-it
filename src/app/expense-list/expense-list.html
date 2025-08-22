@@ -1,10 +1,22 @@
-@if(expenses().length === 0) {
-<div class="container body-container no-expenses">
-  You have not added any expenses yet. Add one to see it here
-</div>
-} @else {
 <section class="container body-container">
   <h1>Recent Expenses</h1>
+  <div class="select-container form-group">
+    <label for="">Filter a category</label>
+    <div class="form-input">
+      <select (change)="onCategoryChanged($event)" name="category" id="category">
+        <option value="all">All</option>
+        @for(category of categories(); track category.id) {
+        <option [value]="category.name">{{ category.name }}</option>
+        }
+      </select>
+    </div>
+  </div>
+  @if(expenses().length === 0) {
+  <div class="container body-container no-expenses">
+    @if(selectedCategory() === 'all') { You have not added any expenses yet. Add one to see it here
+    }@else { You have no expenses in this category yet. Add one to see it here }
+  </div>
+  } @else {
   <ul class="expense-list">
     @for(expense of expenses(); track expense.id) {
     <li class="expense">
@@ -31,5 +43,5 @@
     </li>
     }
   </ul>
+  }
 </section>
-}
