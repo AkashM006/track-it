@@ -4,6 +4,9 @@
   "newProjectRoot": "projects",
   "projects": {
     "track-it": {
+      "i18n": {
+        "sourceLocale": "en-IN"
+      },
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
