@@ -34,6 +34,11 @@ class ExpenseService {
     this.expensesSignal.update((prev) => [newExpense, ...prev]);
     this.saveExpenses();
   }
+
+  deleteExpense(id: IExpense['id']) {
+    this.expensesSignal.update((prev) => prev.filter((expense) => expense.id !== id));
+    this.saveExpenses();
+  }
 }
 
 export default ExpenseService;

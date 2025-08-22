@@ -8,8 +8,10 @@ import {
   ionDocumentOutline,
   ionEllipsisHorizontalOutline,
   ionFastFoodOutline,
+  ionTrashBinOutline,
 } from '@ng-icons/ionicons';
 import { CurrencyPipe, DatePipe } from '@angular/common';
+import { IExpense } from '../types/expense';
 
 @Component({
   selector: 'app-expense-list',
@@ -24,10 +26,15 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
       ionBagHandleOutline,
       ionDocumentOutline,
       ionEllipsisHorizontalOutline,
+      ionTrashBinOutline,
     }),
   ],
 })
 export class ExpenseList {
   expenseService = inject(ExpenseService);
   expenses = this.expenseService.expenses;
+
+  onDeleteExpense(id: IExpense['id']) {
+    this.expenseService.deleteExpense(id);
+  }
 }

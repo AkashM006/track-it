@@ -50,6 +50,19 @@
 }
 
 .right-container {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+
+  .delete-icon-container {
+    cursor: pointer;
+    padding: 0.35em;
+    border-radius: 0.5em;
+    .icon {
+      display: block;
+      font-size: 1.2rem;
+    }
+  }
   .amount {
     text-align: right;
   }

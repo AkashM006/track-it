@@ -53,6 +53,8 @@ export class FormModal {
     }));
   }
 
+  // Todo: When modal is opened focus on the input automatically
+
   onSubmit() {
     // Todo: Validate the amount and then store in, if fails then show toast
     const newExpense: IExpense = {
