@@ -1,5 +1,10 @@
 <section class="container body-container">
-  <h1>Recent Expenses</h1>
+  <div class="title-container">
+    <h1>Recent Expenses</h1>
+    @if(expenses().length > 0) {
+    <button class="charts-btn" (click)="onToggleCharts()">Charts</button>
+    }
+  </div>
   <div class="select-container form-group">
     <label for="">Filter a category</label>
     <div class="form-input">
@@ -16,7 +21,9 @@
     @if(selectedCategory() === 'all') { You have not added any expenses yet. Add one to see it here
     }@else { You have no expenses in this category yet. Add one to see it here }
   </div>
-  } @else {
+  } @else { @if(showCharts()) {
+  <app-charts />
+  }
   <ul class="expense-list">
     @for(expense of expenses(); track expense.id) {
     <li class="expense">
@@ -24,7 +31,7 @@
         <div class="icon-container">
           <ng-icon [name]="expense.category.iconName" class="icon" />
         </div>
-        <div class="title-container">
+        <div class="expense-title-container">
           <h2 class="title">{{ expense.name }}</h2>
           <p class="category">{{ expense.category.name }}</p>
         </div>

@@ -14,10 +14,11 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import { IExpense } from '../types/expense';
 import { ICategory } from '../types/category';
 import CATEGORIES from '../categories';
+import { Charts } from '../charts/charts';
 
 @Component({
   selector: 'app-expense-list',
-  imports: [NgIcon, DatePipe, CurrencyPipe],
+  imports: [NgIcon, DatePipe, CurrencyPipe, Charts],
   templateUrl: './expense-list.html',
   styleUrl: './expense-list.scss',
   viewProviders: [
@@ -36,6 +37,7 @@ export class ExpenseList {
   expenseService = inject(ExpenseService);
   selectedCategory = signal<string>('all');
   categories = signal<ICategory[]>(CATEGORIES);
+  showCharts = signal(false);
 
   expenses = computed(() => {
     const allExpenses = this.expenseService.expenses();
@@ -56,5 +58,9 @@ export class ExpenseList {
     const selectedValue = target.value;
 
     this.selectedCategory.set(selectedValue);
+  }
+
+  onToggleCharts() {
+    this.showCharts.update((prev) => !prev);
   }
 }

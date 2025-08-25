@@ -37,7 +37,7 @@
     }
   }
 
-  .title-container {
+  .expense-title-container {
     .title {
       font-size: 1rem;
     }
@@ -79,4 +79,17 @@
   width: 50%;
   min-width: 100px;
   max-width: 250px;
+}
+
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .charts-btn {
+    background-color: $surface-light;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    border-radius: 1em;
+  }
 }
