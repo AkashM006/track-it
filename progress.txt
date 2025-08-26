@@ -10,3 +10,7 @@ August 22:
 * Integrating app with services
 * Storing data in local storage
 * Fitering based on category
+
+August 26:
+* Completed doughnut chart
+* Added date field to new expense form

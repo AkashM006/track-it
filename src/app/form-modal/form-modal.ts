@@ -9,11 +9,12 @@ import {
   ionFastFoodOutline,
 } from '@ng-icons/ionicons';
 import CATEGORIES from '../categories';
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { ICategory } from '../types/category';
 import ExpenseService from '../expense.service';
 import { IExpense } from '../types/expense';
 import { v4 as uuidv4 } from 'uuid';
+import Utils from '../../utils';
 
 @Component({
   selector: 'app-form-modal',
@@ -35,7 +36,7 @@ export class FormModal {
   close = output();
   categories = signal<ICategory[]>(CATEGORIES);
   expenseForm = signal({
-    date: new Date(),
+    date: Utils.dateToString(new Date()),
     name: '',
     amount: '',
     selectedCategory: CATEGORIES[0],
@@ -56,15 +57,26 @@ export class FormModal {
   // Todo: When modal is opened focus on the input automatically
 
   onSubmit() {
-    // Todo: Validate the amount and then store in, if fails then show toast
+    // Todo: Validate the amount, date and then store in, if fails then show toast
     const newExpense: IExpense = {
       id: uuidv4(),
       name: this.expenseForm().name,
       amount: +this.expenseForm().amount,
       category: this.expenseForm().selectedCategory,
-      date: new Date(),
+      date: Utils.stringToDate(this.expenseForm().date),
     };
     this.expenseService.addExpense(newExpense);
     this.close.emit();
+  }
+
+  setDate(event: Event) {
+    const dateField = event.target as HTMLInputElement;
+    const dateString = dateField.value;
+    if (dateString) {
+      this.expenseForm.update((prev) => ({
+        ...prev,
+        date: Utils.dateToString(new Date(dateString)),
+      }));
+    }
   }
 }

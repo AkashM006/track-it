@@ -20,6 +20,20 @@
       </div>
 
       <div class="form-group">
+        <label for="expense-date">Date</label>
+        <div class="form-input">
+          <input
+            type="date"
+            name="expense-date"
+            id="expense-date"
+            [value]="expenseForm().date"
+            (input)="setDate($event)"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
         <label for="expense-amount">Amount</label>
         <div class="form-input">
           <span class="prefix">$</span>

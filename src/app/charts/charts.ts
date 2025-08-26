@@ -24,10 +24,9 @@ import { CurrencyPipe } from '@angular/common';
 })
 export class Charts {
   private expenseService = inject(ExpenseService);
+  private currencyPipe = inject(CurrencyPipe);
 
   expenses = this.expenseService.expenses;
-
-  constructor(private currencyPipe: CurrencyPipe) {}
 
   options: ChartConfiguration['options'] = {
     plugins: {
@@ -67,4 +66,7 @@ export class Charts {
       datasets: [{ data, backgroundColor }],
     };
   });
+
+  // TODO: Must do this after adding date field in new expense
+  // dayWiseExpenseChartObject = computed<ChartData<'bar'>>(() => {});
 }
