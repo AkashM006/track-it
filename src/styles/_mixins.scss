@@ -1,0 +1,7 @@
+@use 'breakpoints' as *;
+
+@mixin desktop {
+  @media (min-width: $desktop-min-width) {
+    @content;
+  }
+}

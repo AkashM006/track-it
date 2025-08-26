@@ -2,9 +2,11 @@
 
 @if(isFormOpen()) {
 <app-form-modal (close)="onCloseExpenseForm()" />
+} @if(isChartsOpen()) {
+<app-charts />
 }
 
-<app-expense-list />
+<app-expense-list (toggleCharts)="onToggleCharts()" />
 
 <button class="add-btn" (click)="onNewExpense()">
   <ng-icon name="ionAddOutline" class="icon" />

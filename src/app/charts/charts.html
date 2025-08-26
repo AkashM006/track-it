@@ -1,6 +1,7 @@
-<section class="charts-container">
+<section class="container charts-container">
   <div class="chart">
     <h2 class="title">Expenses by Category</h2>
+    <canvas baseChart [data]="categoryWiseExpenseChartObject()" [type]="'doughnut'" [options]="options"></canvas>
   </div>
   <div class="chart">
     <h2 class="title">Daily Expenses</h2>

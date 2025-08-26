@@ -21,9 +21,7 @@
     @if(selectedCategory() === 'all') { You have not added any expenses yet. Add one to see it here
     }@else { You have no expenses in this category yet. Add one to see it here }
   </div>
-  } @else { @if(showCharts()) {
-  <app-charts />
-  }
+  } @else {
   <ul class="expense-list">
     @for(expense of expenses(); track expense.id) {
     <li class="expense">

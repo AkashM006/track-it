@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, output, signal } from '@angular/core';
 import ExpenseService from '../expense.service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
@@ -14,11 +14,10 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import { IExpense } from '../types/expense';
 import { ICategory } from '../types/category';
 import CATEGORIES from '../categories';
-import { Charts } from '../charts/charts';
 
 @Component({
   selector: 'app-expense-list',
-  imports: [NgIcon, DatePipe, CurrencyPipe, Charts],
+  imports: [NgIcon, DatePipe, CurrencyPipe],
   templateUrl: './expense-list.html',
   styleUrl: './expense-list.scss',
   viewProviders: [
@@ -37,7 +36,7 @@ export class ExpenseList {
   expenseService = inject(ExpenseService);
   selectedCategory = signal<string>('all');
   categories = signal<ICategory[]>(CATEGORIES);
-  showCharts = signal(false);
+  toggleCharts = output();
 
   expenses = computed(() => {
     const allExpenses = this.expenseService.expenses();
@@ -61,6 +60,6 @@ export class ExpenseList {
   }
 
   onToggleCharts() {
-    this.showCharts.update((prev) => !prev);
+    this.toggleCharts.emit();
   }
 }
