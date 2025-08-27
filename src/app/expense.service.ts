@@ -18,7 +18,10 @@ class ExpenseService {
     if (!items) {
       this.expensesSignal.set([]);
     } else {
-      this.expensesSignal.set(JSON.parse(items));
+      const expenses: (Omit<IExpense, 'date'> & { date: string })[] = JSON.parse(items);
+      this.expensesSignal.set(
+        expenses.map((expense) => ({ ...expense, date: new Date(expense.date) }))
+      );
     }
   }
 

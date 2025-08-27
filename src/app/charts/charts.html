@@ -1,9 +1,24 @@
 <section class="container charts-container">
   <div class="chart">
     <h2 class="title">Expenses by Category</h2>
-    <canvas baseChart [data]="categoryWiseExpenseChartObject()" [type]="'doughnut'" [options]="options"></canvas>
+    <div class="chart-container">
+      <canvas
+        baseChart
+        [data]="categoryWiseExpenseChartObject()"
+        [type]="'doughnut'"
+        [options]="doughNutChartOptions"
+      ></canvas>
+    </div>
   </div>
   <div class="chart">
     <h2 class="title">Daily Expenses</h2>
+    <div class="chart-container">
+      <canvas
+        baseChart
+        [data]="dayWiseExpenseChartObject()"
+        [type]="'bar'"
+        [options]="barChartOptions"
+      ></canvas>
+    </div>
   </div>
 </section>

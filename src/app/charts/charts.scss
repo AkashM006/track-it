@@ -18,10 +18,17 @@
   padding: 1em;
   border-radius: 1em;
   background-color: $surface-light;
+  display: flex;
+  flex-direction: column;
   @include desktop {
     width: 48.5%;
   }
   .title {
     font-size: 1.2rem;
+    margin-bottom: 1em;
+  }
+  .chart-container {
+    flex: 1;
+    align-content: center;
   }
 }

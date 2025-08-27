@@ -3,14 +3,19 @@ import ExpenseService from '../expense.service';
 import { BaseChartDirective, provideCharts } from 'ng2-charts';
 import {
   ArcElement,
+  BarController,
+  BarElement,
+  CategoryScale,
   ChartConfiguration,
   ChartData,
   Colors,
   DoughnutController,
   Legend,
+  LinearScale,
   Tooltip,
 } from 'chart.js';
 import { CurrencyPipe } from '@angular/common';
+import Utils from '../../utils';
 
 @Component({
   selector: 'app-charts',
@@ -18,7 +23,19 @@ import { CurrencyPipe } from '@angular/common';
   templateUrl: './charts.html',
   styleUrl: './charts.scss',
   viewProviders: [
-    provideCharts({ registerables: [ArcElement, DoughnutController, Tooltip, Legend, Colors] }),
+    provideCharts({
+      registerables: [
+        ArcElement,
+        DoughnutController,
+        Tooltip,
+        Legend,
+        Colors,
+        BarController,
+        CategoryScale,
+        LinearScale,
+        BarElement,
+      ],
+    }),
   ],
   providers: [CurrencyPipe],
 })
@@ -28,7 +45,7 @@ export class Charts {
 
   expenses = this.expenseService.expenses;
 
-  options: ChartConfiguration['options'] = {
+  doughNutChartOptions: ChartConfiguration['options'] = {
     plugins: {
       tooltip: {
         callbacks: {
@@ -37,6 +54,14 @@ export class Charts {
             return this.currencyPipe.transform(value, 'INR', 'symbol')!;
           },
         },
+      },
+    },
+  };
+
+  barChartOptions: ChartConfiguration['options'] = {
+    plugins: {
+      legend: {
+        display: false,
       },
     },
   };
@@ -68,5 +93,26 @@ export class Charts {
   });
 
   // TODO: Must do this after adding date field in new expense
-  // dayWiseExpenseChartObject = computed<ChartData<'bar'>>(() => {});
+  dayWiseExpenseChartObject = computed<ChartData<'bar'>>(() => {
+    const today = new Date();
+    const dates = Utils.getDatesOfCurrentWeek().map(Utils.dateToString);
+    const expensesMappedToDates: Record<string, number> = Object.fromEntries(
+      dates.map((date) => [date, 0])
+    );
+    this.expenses().forEach((expense) => {
+      const expenseDate = Utils.dateToString(expense.date);
+
+      if (expensesMappedToDates[expenseDate] !== undefined) {
+        expensesMappedToDates[expenseDate] += expense.amount;
+      }
+    });
+
+    const labels = dates.filter((date) => Utils.stringToDate(date) <= today);
+    const data = labels.map((date) => expensesMappedToDates[date]);
+
+    return {
+      labels,
+      datasets: [{ data }],
+    };
+  });
 }

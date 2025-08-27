@@ -14,3 +14,6 @@ August 22:
 August 26:
 * Completed doughnut chart
 * Added date field to new expense form
+
+Week 2:
+* Complete Bar chart
