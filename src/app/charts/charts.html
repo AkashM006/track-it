@@ -2,23 +2,31 @@
   <div class="chart">
     <h2 class="title">Expenses by Category</h2>
     <div class="chart-container">
+      @if(expenses().length > 0 ){
       <canvas
         baseChart
         [data]="categoryWiseExpenseChartObject()"
         [type]="'doughnut'"
         [options]="doughNutChartOptions"
       ></canvas>
+      }@else {
+      <p class="no-expense">You have not added any expenses yet. Add one to see it here</p>
+      }
     </div>
   </div>
   <div class="chart">
     <h2 class="title">Daily Expenses</h2>
     <div class="chart-container">
+      @if(expenses().length > 0) {
       <canvas
         baseChart
         [data]="dayWiseExpenseChartObject()"
         [type]="'bar'"
         [options]="barChartOptions"
       ></canvas>
+      } @else {
+      <p class="no-expense">You have not added any expenses yet. Add one to see it here</p>
+      }
     </div>
   </div>
 </section>

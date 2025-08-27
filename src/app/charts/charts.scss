@@ -30,5 +30,11 @@
   .chart-container {
     flex: 1;
     align-content: center;
+    text-align: center;
+    .no-expense {
+      color: rgba($accent, 0.8);
+      font-style: italic;
+      padding-block: 1em 1.5em;
+    }
   }
 }

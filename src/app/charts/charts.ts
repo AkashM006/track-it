@@ -92,7 +92,6 @@ export class Charts {
     };
   });
 
-  // TODO: Must do this after adding date field in new expense
   dayWiseExpenseChartObject = computed<ChartData<'bar'>>(() => {
     const today = new Date();
     const dates = Utils.getDatesOfCurrentWeek().map(Utils.dateToString);
