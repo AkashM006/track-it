@@ -1,4 +1,6 @@
 Week 1:
+Start: Aug 20
+End: Aug 26
 August 20:
 * Header UI
 
@@ -16,4 +18,7 @@ August 26:
 * Added date field to new expense form
 
 Week 2:
-* Complete Bar chart
+Start: Aug 27
+End: Sep 2
+August 27:
+* Completed Bar chart
