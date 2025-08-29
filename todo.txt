@@ -1,0 +1,5 @@
+TODO:
+
+Planned:
+Week 2: ( Aug 27 - Sep 2 )
+1. Integration with backend once that is complete
