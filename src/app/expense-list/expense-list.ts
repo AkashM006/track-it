@@ -1,5 +1,5 @@
 import { Component, computed, inject, input, output, signal } from '@angular/core';
-import ExpenseService from '../expense.service';
+import ExpenseService from '../services/expense.service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   ionAirplaneOutline,

@@ -1,4 +1,4 @@
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, inject, OnInit, output, signal } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   ionAirplaneOutline,
@@ -11,10 +11,11 @@ import {
 import CATEGORIES from '../categories';
 import { FormsModule } from '@angular/forms';
 import { ICategory } from '../types/category';
-import ExpenseService from '../expense.service';
+import ExpenseService from '../services/expense.service';
 import { IExpense } from '../types/expense';
 import { v4 as uuidv4 } from 'uuid';
 import Utils from '../../utils';
+import { CategoryService } from '../services/category.service';
 
 @Component({
   selector: 'app-form-modal',
@@ -32,9 +33,9 @@ import Utils from '../../utils';
     }),
   ],
 })
-export class FormModal {
+export class FormModal implements OnInit {
   close = output();
-  categories = signal<ICategory[]>(CATEGORIES);
+  categories = signal<ICategory[]>([]);
   expenseForm = signal({
     date: Utils.dateToString(new Date()),
     name: '',
@@ -42,6 +43,13 @@ export class FormModal {
     selectedCategory: CATEGORIES[0],
   });
   expenseService = inject(ExpenseService);
+  categoriesService = inject(CategoryService);
+
+  async ngOnInit() {
+    const result = await this.categoriesService.getAllCategories();
+    if (!result || !result.success || !result.results) return;
+    this.categories.set(result.results);
+  }
 
   onClose() {
     this.close.emit();

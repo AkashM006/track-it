@@ -6,7 +6,7 @@ import { FormModal } from './form-modal/form-modal';
 import { ExpenseList } from './expense-list/expense-list';
 import { Charts } from './charts/charts';
 import { IExpense } from './types/expense';
-import ExpenseService from './expense.service';
+import ExpenseService from './services/expense.service';
 
 @Component({
   selector: 'app-root',
