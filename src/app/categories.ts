@@ -4,31 +4,31 @@ const CATEGORIES: ICategory[] = [
   {
     id: 1,
     name: 'Food',
-    iconName: 'ionFastFoodOutline',
+    // iconName: 'ionFastFoodOutline',
     color: '#4e79a7',
   },
   {
     id: 2,
     name: 'Travel',
-    iconName: 'ionAirplaneOutline',
+    // iconName: 'ionAirplaneOutline',
     color: '#f28e2b',
   },
   {
     id: 3,
     name: 'Shopping',
-    iconName: 'ionBagHandleOutline',
+    // iconName: 'ionBagHandleOutline',
     color: '#e15759',
   },
   {
     id: 4,
     name: 'Bills',
-    iconName: 'ionDocumentOutline',
+    // iconName: 'ionDocumentOutline',
     color: '#76b7b2',
   },
   {
     id: 5,
     name: 'Others',
-    iconName: 'ionEllipsisHorizontalOutline',
+    // iconName: 'ionEllipsisHorizontalOutline',
     color: '#59a14f',
   },
 ];

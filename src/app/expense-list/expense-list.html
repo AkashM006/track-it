@@ -26,9 +26,9 @@
     @for(expense of selectedExpenses(); track expense.id) {
     <li class="expense">
       <div class="left-container">
-        <div class="icon-container">
+        <!-- <div class="icon-container">
           <ng-icon [name]="expense.category.iconName" class="icon" />
-        </div>
+        </div> -->
         <div class="expense-title-container">
           <h2 class="title">{{ expense.name }}</h2>
           <p class="category">{{ expense.category.name }}</p>
