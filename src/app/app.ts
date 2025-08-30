@@ -21,6 +21,7 @@ export class App implements OnInit {
 
   expenses = signal<IExpense[]>([]);
   expenseService = inject(ExpenseService);
+  selectedExpense = signal<IExpense | null>(null);
 
   async ngOnInit() {
     const result = await this.expenseService.getAllExpenses();
@@ -30,13 +31,20 @@ export class App implements OnInit {
 
   onNewExpense() {
     this.isFormOpen.set(true);
+    this.selectedExpense.set(null);
   }
 
   onCloseExpenseForm() {
     this.isFormOpen.set(false);
+    this.selectedExpense.set(null);
   }
 
   onToggleCharts() {
     this.isChartsOpen.update((prev) => !prev);
+  }
+
+  onSelectExpense(expense: IExpense) {
+    this.selectedExpense.set(expense);
+    this.isFormOpen.set(true);
   }
 }

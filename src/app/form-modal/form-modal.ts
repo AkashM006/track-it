@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, output, signal } from '@angular/core';
+import { Component, computed, inject, input, OnInit, output, signal } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   ionAirplaneOutline,
@@ -13,7 +13,6 @@ import { FormsModule } from '@angular/forms';
 import { ICategory } from '../types/category';
 import ExpenseService from '../services/expense.service';
 import { IExpense } from '../types/expense';
-import { v4 as uuidv4 } from 'uuid';
 import Utils from '../../utils';
 import { CategoryService } from '../services/category.service';
 
@@ -44,11 +43,25 @@ export class FormModal implements OnInit {
   });
   expenseService = inject(ExpenseService);
   categoriesService = inject(CategoryService);
+  selectedExpense = input.required<IExpense | null>();
+
+  isEditForm = computed(() => this.selectedExpense() !== null);
 
   async ngOnInit() {
     const result = await this.categoriesService.getAllCategories();
     if (!result || !result.success || !result.results) return;
     this.categories.set(result.results);
+
+    // Fill values into form if editing
+    if (this.selectedExpense() !== null) {
+      const expense = this.selectedExpense()!;
+      this.expenseForm.set({
+        date: Utils.dateToString(expense.date),
+        name: expense.name,
+        amount: expense.amount.toString(),
+        selectedCategory: expense.category,
+      });
+    }
   }
 
   onClose() {
@@ -73,7 +86,12 @@ export class FormModal implements OnInit {
       category: this.expenseForm().selectedCategory,
       date: Utils.stringToDate(this.expenseForm().date),
     };
-    await this.expenseService.addExpense(newExpense);
+    if (!this.isEditForm()) {
+      await this.expenseService.addExpense(newExpense);
+    } else {
+      newExpense.id = this.selectedExpense()!.id;
+      await this.expenseService.updateExpense(newExpense);
+    }
     this.close.emit();
   }
 

@@ -38,6 +38,7 @@ export class ExpenseList {
   selectedCategory = signal<string>('all');
   categories = signal<ICategory[]>(CATEGORIES);
   toggleCharts = output();
+  selectExpense = output<IExpense>();
 
   selectedExpenses = computed(() => {
     const allExpenses = this.expenses();
@@ -62,5 +63,9 @@ export class ExpenseList {
 
   onToggleCharts() {
     this.toggleCharts.emit();
+  }
+
+  onSelectExpense(expense: IExpense) {
+    this.selectExpense.emit(expense);
   }
 }

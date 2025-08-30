@@ -24,7 +24,7 @@
   } @else {
   <ul class="expense-list">
     @for(expense of selectedExpenses(); track expense.id) {
-    <li class="expense">
+    <li (click)="onSelectExpense(expense)" class="expense">
       <div class="left-container">
         <!-- <div class="icon-container">
           <ng-icon [name]="expense.category.iconName" class="icon" />

@@ -6,6 +6,9 @@ import { API_LINK } from '../api.config';
 @Injectable({ providedIn: 'root' })
 class ExpenseService {
   expenseRoute = '/expenses';
+  requestHeaders = {
+    'Content-Type': 'application/json',
+  };
 
   async getAllExpenses(): Promise<ApiResponse<IExpense[]>> {
     const response = await fetch(`${API_LINK}${this.expenseRoute}`);
@@ -15,6 +18,7 @@ class ExpenseService {
       result.results = result.results.map((expense) => ({
         ...expense,
         amount: Number(expense.amount),
+        date: new Date(expense.date),
       }));
     }
     return result;
@@ -23,14 +27,40 @@ class ExpenseService {
   async addExpense(newExpense: IExpense) {
     const { name, amount, date } = newExpense;
     const categoryId = newExpense.category.id;
+
+    const requestBody = {
+      expense: {
+        name,
+        amount,
+        date,
+        categoryId,
+      },
+    };
+
     const response = await fetch(`${API_LINK}${this.expenseRoute}`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+      headers: this.requestHeaders,
+      body: JSON.stringify(requestBody),
+    });
+  }
+
+  async updateExpense(newExpense: IExpense) {
+    const { name, amount, date } = newExpense;
+    const categoryId = newExpense.category.id;
+
+    const requestBody = {
+      expense: {
+        name,
+        amount,
+        date,
+        categoryId,
       },
-      body: JSON.stringify({
-        expense: { name, amount, date, categoryId },
-      }),
+    };
+
+    const response = await fetch(`${API_LINK}${this.expenseRoute}?id=${newExpense.id}`, {
+      method: 'PUT',
+      headers: this.requestHeaders,
+      body: JSON.stringify(requestBody),
     });
   }
 
