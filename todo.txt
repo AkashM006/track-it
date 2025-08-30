@@ -7,7 +7,13 @@ Week 2: ( Aug 27 - Sep 2 )
 For Later:
 1. Defer loading of expense modal form
 2. Convert expense amount to use decimal js and create new pipes to display them or just do learn how to show as currency and change the total expense logic
-3. Setup a loading state in places where Api is used
+3. Setup a loading state in places where Api is used;
+    - Getting all expenses
+    - Getting all categories
+    - Creating new expense
 4. Setup import alias
-5. Error handling in service level and UI level
+5. Error handling in service level and UI level:
+    - Getting all expenses
+    - Getting all categories
+    - Creating new expense
 6. Removed icons in categories, UI change required for form

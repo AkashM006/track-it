@@ -48,8 +48,8 @@ export class ExpenseList {
     return allExpenses.filter((expense) => expense.category.name === selectedCategory);
   });
 
-  onDeleteExpense(id: IExpense['id']) {
-    this.expenseService.deleteExpense(id);
+  async onDeleteExpense(id: IExpense['id']) {
+    await this.expenseService.deleteExpense(id);
   }
 
   onCategoryChanged(event: Event) {
