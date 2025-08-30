@@ -1,7 +1,7 @@
 <section class="container body-container">
   <div class="title-container">
     <h1>Recent Expenses</h1>
-    @if(expenses().length > 0) {
+    @if(selectedExpenses().length > 0) {
     <button class="charts-btn" (click)="onToggleCharts()">Charts</button>
     }
   </div>
@@ -16,14 +16,14 @@
       </select>
     </div>
   </div>
-  @if(expenses().length === 0) {
+  @if(selectedExpenses().length === 0) {
   <div class="container body-container no-expenses">
     @if(selectedCategory() === 'all') { You have not added any expenses yet. Add one to see it here
     }@else { You have no expenses in this category yet. Add one to see it here }
   </div>
   } @else {
   <ul class="expense-list">
-    @for(expense of expenses(); track expense.id) {
+    @for(expense of selectedExpenses(); track expense.id) {
     <li class="expense">
       <div class="left-container">
         <div class="icon-container">

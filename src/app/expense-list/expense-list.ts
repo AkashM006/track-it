@@ -1,4 +1,4 @@
-import { Component, computed, inject, output, signal } from '@angular/core';
+import { Component, computed, inject, input, output, signal } from '@angular/core';
 import ExpenseService from '../expense.service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
@@ -33,13 +33,14 @@ import CATEGORIES from '../categories';
   ],
 })
 export class ExpenseList {
+  expenses = input.required<IExpense[]>();
   expenseService = inject(ExpenseService);
   selectedCategory = signal<string>('all');
   categories = signal<ICategory[]>(CATEGORIES);
   toggleCharts = output();
 
-  expenses = computed(() => {
-    const allExpenses = this.expenseService.expenses();
+  selectedExpenses = computed(() => {
+    const allExpenses = this.expenses();
     const selectedCategory = this.selectedCategory();
 
     if (selectedCategory === 'all') return allExpenses;

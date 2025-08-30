@@ -1,5 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
-import ExpenseService from '../expense.service';
+import { Component, computed, inject, input } from '@angular/core';
 import { BaseChartDirective, provideCharts } from 'ng2-charts';
 import {
   ArcElement,
@@ -16,6 +15,7 @@ import {
 } from 'chart.js';
 import { CurrencyPipe } from '@angular/common';
 import Utils from '../../utils';
+import { IExpense } from '../types/expense';
 
 @Component({
   selector: 'app-charts',
@@ -40,10 +40,8 @@ import Utils from '../../utils';
   providers: [CurrencyPipe],
 })
 export class Charts {
-  private expenseService = inject(ExpenseService);
+  expenses = input.required<IExpense[]>();
   private currencyPipe = inject(CurrencyPipe);
-
-  expenses = this.expenseService.expenses;
 
   doughNutChartOptions: ChartConfiguration['options'] = {
     plugins: {

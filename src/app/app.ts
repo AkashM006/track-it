@@ -5,6 +5,7 @@ import { ionAddOutline } from '@ng-icons/ionicons';
 import { FormModal } from './form-modal/form-modal';
 import { ExpenseList } from './expense-list/expense-list';
 import { Charts } from './charts/charts';
+import { IExpense } from './types/expense';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,8 @@ import { Charts } from './charts/charts';
 export class App {
   isFormOpen = signal(false);
   isChartsOpen = signal(false);
+
+  expenses = signal<IExpense[]>([]);
 
   onNewExpense() {
     this.isFormOpen.set(true);

@@ -1,8 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { ionTrendingDownOutline, ionWalletOutline } from '@ng-icons/ionicons';
-import ExpenseService from '../expense.service';
 import { CurrencyPipe } from '@angular/common';
+import { IExpense } from '../types/expense';
 
 @Component({
   selector: 'app-header',
@@ -17,8 +17,8 @@ import { CurrencyPipe } from '@angular/common';
   ],
 })
 export class Header {
-  expenseService = inject(ExpenseService);
+  expenses = input.required<IExpense[]>();
 
-  totalAmount = this.expenseService.totalExpense;
-  expensesCount = this.expenseService.expensesCount;
+  totalAmount = computed(() => this.expenses().reduce((prev, expense) => prev + expense.amount, 0));
+  expensesCount = computed(() => this.expenses().length);
 }
