@@ -64,16 +64,16 @@ export class FormModal implements OnInit {
 
   // Todo: When modal is opened focus on the input automatically
 
-  onSubmit() {
+  async onSubmit() {
     // Todo: Validate the amount, date and then store in, if fails then show toast
     const newExpense: IExpense = {
-      id: uuidv4(),
+      id: '',
       name: this.expenseForm().name,
       amount: +this.expenseForm().amount,
       category: this.expenseForm().selectedCategory,
       date: Utils.stringToDate(this.expenseForm().date),
     };
-    this.expenseService.addExpense(newExpense);
+    await this.expenseService.addExpense(newExpense);
     this.close.emit();
   }
 

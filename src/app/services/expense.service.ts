@@ -18,8 +18,18 @@ class ExpenseService {
     return result;
   }
 
-  addExpense(newExpense: IExpense) {
-    // TODO
+  async addExpense(newExpense: IExpense) {
+    const { name, amount, date } = newExpense;
+    const categoryId = newExpense.category.id;
+    const response = await fetch(`${API_LINK}/expenses`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        expense: { name, amount, date, categoryId },
+      }),
+    });
   }
 
   deleteExpense(id: IExpense['id']) {
