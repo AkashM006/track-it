@@ -1,39 +1,17 @@
 @use 'colors' as *;
 
-.modal {
-  position: fixed;
-  inset: 0;
-  z-index: 10;
-  background-color: $backdrop-bg;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.content {
-  background-color: $surface;
-  padding: 1em 1.5em;
-  border-radius: 1em;
-
-  width: 50%;
-  max-width: 470px;
-  min-width: 300px;
-}
-
-.close-icon-btn {
-  cursor: pointer;
-  margin-left: auto;
-  display: block;
-  border-radius: 0.15em;
-  .close-icon {
-    display: block;
-    color: $accent;
-  }
-}
-
 .title {
   text-align: center;
   color: $accent;
+}
+
+.error {
+  .title {
+    text-align: left;
+  }
+  .content {
+    margin-top: 1em;
+  }
 }
 
 .form {

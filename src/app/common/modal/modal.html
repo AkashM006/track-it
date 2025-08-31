@@ -1,0 +1,8 @@
+<div class="modal" (click)="onClose()">
+  <div class="content" (click)="$event.stopPropagation()">
+    <button (click)="onClose()" class="close-icon-btn">
+      <ng-icon name="ionCloseOutline" class="close-icon" />
+    </button>
+    <ng-content />
+  </div>
+</div>

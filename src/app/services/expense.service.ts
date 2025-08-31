@@ -16,7 +16,6 @@ class ExpenseService {
 
   private http = inject(HttpClient);
 
-  // getAllExpenses(): Observable<ResourceState<IExpense[]>> {
   getAllExpenses(): Signal<ResourceState<IExpense[]>> {
     const expenses$ = this.http
       .get<ApiResponse<IExpense[]>>(`${API_LINK}${this.expenseRoute}`)

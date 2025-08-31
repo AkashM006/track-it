@@ -15,10 +15,12 @@ import ExpenseService from '../services/expense.service';
 import { IExpense } from '../../types/expense';
 import Utils from '../../utils';
 import { CategoryService } from '../services/category.service';
+import { Loader } from '../common/loader/loader';
+import { Modal } from '../common/modal/modal';
 
 @Component({
   selector: 'app-form-modal',
-  imports: [NgIcon, FormsModule],
+  imports: [FormsModule, Loader, Modal],
   templateUrl: './form-modal.html',
   styleUrl: './form-modal.scss',
   viewProviders: [
@@ -32,9 +34,8 @@ import { CategoryService } from '../services/category.service';
     }),
   ],
 })
-export class FormModal implements OnInit {
+export class FormModal {
   close = output();
-  categories = signal<ICategory[]>([]);
   expenseForm = signal({
     date: Utils.dateToString(new Date()),
     name: '',
@@ -45,24 +46,11 @@ export class FormModal implements OnInit {
   categoriesService = inject(CategoryService);
   selectedExpense = input.required<IExpense | null>();
 
+  // categories = signal<ICategory[]>();
+  categoriesObject = this.categoriesService.getAllCategories();
+  categories = computed(() => this.categoriesObject().data ?? []);
+
   isEditForm = computed(() => this.selectedExpense() !== null);
-
-  async ngOnInit() {
-    const result = await this.categoriesService.getAllCategories();
-    if (!result || !result.success || !result.results) return;
-    this.categories.set(result.results);
-
-    // Fill values into form if editing
-    if (this.selectedExpense() !== null) {
-      const expense = this.selectedExpense()!;
-      this.expenseForm.set({
-        date: Utils.dateToString(expense.date),
-        name: expense.name,
-        amount: expense.amount.toString(),
-        selectedCategory: expense.category,
-      });
-    }
-  }
 
   onClose() {
     this.close.emit();

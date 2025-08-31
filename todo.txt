@@ -17,3 +17,4 @@ For Later:
     - Getting all categories
     - Creating new expense
 6. Removed icons in categories, UI change required for form
+7. Using some kind of state management solution
