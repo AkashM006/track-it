@@ -26,6 +26,7 @@
   (selectExpense)="onSelectExpense($event)"
   [expenses]="expenses()"
   (toggleCharts)="onToggleCharts()"
+  (deleteExpense)="onDeleteExpense($event)"
 />
 } @case ('error') {
 <!-- Todo: Handle better -->

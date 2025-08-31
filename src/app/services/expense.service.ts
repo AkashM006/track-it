@@ -99,10 +99,8 @@ class ExpenseService {
       );
   }
 
-  async deleteExpense(id: IExpense['id']) {
-    const response = await fetch(`${API_LINK}${this.expenseRoute}?id=${id}`, {
-      method: 'DELETE',
-    });
+  deleteExpense(id: IExpense['id']): Observable<unknown> {
+    return this.http.delete(`${API_LINK}${this.expenseRoute}?id=${id}`);
   }
 }
 

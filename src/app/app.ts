@@ -78,4 +78,11 @@ export class App implements OnInit, OnDestroy {
       }),
     }));
   }
+
+  onDeleteExpense(id: IExpense['id']) {
+    if (this.expensesQuery.state().status !== 'success') return;
+    this.expensesQuery.state.update((prev) => {
+      return { ...prev, data: prev.data.filter((expense) => expense.id !== id) };
+    });
+  }
 }

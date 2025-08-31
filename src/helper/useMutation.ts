@@ -4,14 +4,14 @@ import { MutationState } from '../types/asyncState';
 import { HttpErrorResponse } from '@angular/common/http';
 import ApiResponse from '../types/response';
 
-export type UseMutationOptions<T> = {
-  onSuccess?: (data: T) => void;
+export type UseMutationOptions<T, TArgs extends any[]> = {
+  onSuccess?: (data: T, ...args: TArgs) => void;
   onError?: (error: string) => void;
 };
 
 const useMutation = <TArgs extends any[], TResult>(
   mutationFn: (...args: TArgs) => Observable<TResult>,
-  options: UseMutationOptions<TResult> = {}
+  options: UseMutationOptions<TResult, TArgs> = {}
 ) => {
   const initialValue = {
     status: 'idle' as const,
@@ -40,7 +40,7 @@ const useMutation = <TArgs extends any[], TResult>(
             data,
             status: 'success',
           });
-          options?.onSuccess?.(data);
+          options?.onSuccess?.(data, ...args);
         }),
         catchError((error: HttpErrorResponse) => {
           const errorObject = error.error;

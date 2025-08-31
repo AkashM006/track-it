@@ -14,10 +14,12 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import { IExpense } from '../../types/expense';
 import { ICategory } from '../../types/category';
 import CATEGORIES from '../categories';
+import useMutation from '../../helper/useMutation';
+import { Loader } from '../common/loader/loader';
 
 @Component({
   selector: 'app-expense-list',
-  imports: [NgIcon, DatePipe, CurrencyPipe],
+  imports: [NgIcon, DatePipe, CurrencyPipe, Loader],
   templateUrl: './expense-list.html',
   styleUrl: './expense-list.scss',
   viewProviders: [
@@ -33,13 +35,18 @@ import CATEGORIES from '../categories';
   ],
 })
 export class ExpenseList {
+  // inputs & outputs
   expenses = input.required<IExpense[]>();
-  expenseService = inject(ExpenseService);
-  selectedCategory = signal<string>('all');
-  categories = signal<ICategory[]>(CATEGORIES);
   toggleCharts = output();
   selectExpense = output<IExpense>();
+  deleteExpense = output<IExpense['id']>();
 
+  // services
+  expenseService = inject(ExpenseService);
+
+  // signals used in template
+  selectedCategory = signal<string>('all');
+  categories = signal<ICategory[]>(CATEGORIES);
   selectedExpenses = computed(() => {
     const allExpenses = this.expenses();
     const selectedCategory = this.selectedCategory();
@@ -49,8 +56,27 @@ export class ExpenseList {
     return allExpenses.filter((expense) => expense.category.name === selectedCategory);
   });
 
-  async onDeleteExpense(id: IExpense['id']) {
-    await this.expenseService.deleteExpense(id);
+  // Mutations
+  deleteExpenseMutation = useMutation(
+    (id: IExpense['id']) => this.expenseService.deleteExpense(id),
+    {
+      onSuccess: this.onExpenseDeleted.bind(this),
+      onError: this.onExpenseDeleteError.bind(this),
+    }
+  );
+
+  onDeleteExpense(id: IExpense['id']) {
+    this.deleteExpenseMutation.mutate(id);
+  }
+
+  onExpenseDeleted(_: unknown, id: IExpense['id']) {
+    this.deleteExpense.emit(id);
+    // Todo: Maybe show a toast
+  }
+
+  onExpenseDeleteError(error: string) {
+    // Todo: Show toast
+    alert(error);
   }
 
   onCategoryChanged(event: Event) {
