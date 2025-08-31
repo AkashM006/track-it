@@ -50,6 +50,8 @@ export class FormModal implements OnInit, OnDestroy {
   selectedExpense = input.required<IExpense | null>();
   close = output();
   addExpense = output<IExpense>();
+  updateExpense = output<IExpense>();
+
   // Services
   expenseService = inject(ExpenseService);
   categoriesService = inject(CategoryService);
@@ -61,14 +63,13 @@ export class FormModal implements OnInit, OnDestroy {
     amount: '',
     selectedCategory: CATEGORIES[0],
   });
+  isEditForm = computed(() => this.selectedExpense() !== null);
 
+  // Query
   categoriesQuery = useQuery(() => this.categoriesService.getAllCategories(), {
     initialData: [],
     placeholder: [],
   });
-  categories = computed(() => this.categoriesQuery.state().data);
-
-  isEditForm = computed(() => this.selectedExpense() !== null);
 
   // Mutations
   addExpenseMutation = useMutation(
@@ -86,8 +87,20 @@ export class FormModal implements OnInit, OnDestroy {
     }
   );
 
+  // signals derived from query, mutations
+  categories = computed(() => this.categoriesQuery.state().data);
+
   ngOnInit(): void {
     this.categoriesQuery.execute();
+    if (this.isEditForm()) {
+      const selectedExp = this.selectedExpense()!;
+      this.expenseForm.set({
+        date: Utils.dateToString(selectedExp.date),
+        name: selectedExp.name,
+        amount: selectedExp.amount.toString(),
+        selectedCategory: selectedExp.category,
+      });
+    }
   }
 
   ngOnDestroy(): void {
@@ -119,6 +132,11 @@ export class FormModal implements OnInit, OnDestroy {
 
     if (!this.isEditForm()) {
       this.addExpenseMutation.mutate(newExpense);
+    } else {
+      this.updateExpenseMutation.mutate({
+        ...newExpense,
+        id: this.selectedExpense()!.id,
+      });
     }
     // if (!this.isEditForm()) {
     //   await this.expenseService.addExpense(newExpense);
@@ -129,7 +147,6 @@ export class FormModal implements OnInit, OnDestroy {
   }
 
   onExpenseAdded(expense: IExpense | undefined) {
-    // Todo: add to list
     if (expense) {
       this.addExpense.emit(expense);
     }
@@ -142,7 +159,10 @@ export class FormModal implements OnInit, OnDestroy {
   }
 
   onExpenseUpdated(expense: IExpense | undefined) {
-    // Todo
+    if (expense) {
+      this.updateExpense.emit(expense);
+    }
+    this.onClose();
   }
 
   onUpdateExpenseError(error: string) {

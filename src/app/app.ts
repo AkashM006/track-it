@@ -65,6 +65,17 @@ export class App implements OnInit, OnDestroy {
   }
 
   onUpdateExpense(expense: IExpense) {
-    // Todo
+    if (this.expensesQuery.state().status !== 'success') return;
+    this.expensesQuery.state.update((prev) => ({
+      ...prev,
+      data: prev.data.map((e) => {
+        if (e.id === expense.id) return { ...expense };
+
+        return {
+          ...expense,
+          id: e.id,
+        };
+      }),
+    }));
   }
 }

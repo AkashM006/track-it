@@ -79,10 +79,24 @@ class ExpenseService {
     };
 
     return this.http
-      .put<ApiResponse<IExpense>>(`${API_LINK}${this.expenseRoute}?id=${newExpense.id}`, {
-        requestBody,
-      })
-      .pipe(map((response) => response.results));
+      .put<ApiResponse<IExpense>>(
+        `${API_LINK}${this.expenseRoute}?id=${newExpense.id}`,
+        requestBody
+      )
+      .pipe(
+        map((response) => {
+          const expense = response.results;
+
+          if (expense) {
+            return {
+              ...expense,
+              amount: Number(expense.amount),
+              date: new Date(expense.date),
+            };
+          }
+          return undefined;
+        })
+      );
   }
 
   async deleteExpense(id: IExpense['id']) {
