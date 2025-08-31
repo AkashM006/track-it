@@ -3,7 +3,7 @@
 } @case ('success') {
 <app-modal (close)="onClose()">
   <h3 class="title">Add New Expense</h3>
-  <form class="form" #newExpenseForm="ngForm" (ngSubmit)="onSubmit(); newExpenseForm.reset()">
+  <form class="form" #newExpenseForm="ngForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="expense-name">Expense Name</label>
       <div class="form-input">
@@ -80,6 +80,7 @@
 } }
 
 <!-- Show Loader when actions are loading -->
-@if(addExpenseMutation.state().status === 'loading') {
+@if(addExpenseMutation.state().status === 'loading' || updateExpenseMutation.state().status ===
+'loading') {
 <app-loader />
 }

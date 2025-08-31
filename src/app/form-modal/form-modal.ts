@@ -7,6 +7,7 @@ import {
   OnInit,
   output,
   signal,
+  viewChild,
 } from '@angular/core';
 import { provideIcons } from '@ng-icons/core';
 import {
@@ -18,7 +19,7 @@ import {
   ionFastFoodOutline,
 } from '@ng-icons/ionicons';
 import CATEGORIES from '../categories';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { ICategory } from '../../types/category';
 import ExpenseService from '../services/expense.service';
 import { IExpense } from '../../types/expense';
@@ -90,6 +91,8 @@ export class FormModal implements OnInit, OnDestroy {
   // signals derived from query, mutations
   categories = computed(() => this.categoriesQuery.state().data);
 
+  form = viewChild<NgForm>('newExpenseForm');
+
   ngOnInit(): void {
     this.categoriesQuery.execute();
     if (this.isEditForm()) {
@@ -138,18 +141,13 @@ export class FormModal implements OnInit, OnDestroy {
         id: this.selectedExpense()!.id,
       });
     }
-    // if (!this.isEditForm()) {
-    //   await this.expenseService.addExpense(newExpense);
-    // } else {
-    //   newExpense.id = this.selectedExpense()!.id;
-    //   await this.expenseService.updateExpense(newExpense);
-    // }
   }
 
   onExpenseAdded(expense: IExpense | undefined) {
     if (expense) {
       this.addExpense.emit(expense);
     }
+    this.form()?.reset();
     this.onClose();
   }
 
@@ -162,6 +160,7 @@ export class FormModal implements OnInit, OnDestroy {
     if (expense) {
       this.updateExpense.emit(expense);
     }
+    this.form()?.reset();
     this.onClose();
   }
 
