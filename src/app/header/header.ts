@@ -2,7 +2,7 @@ import { Component, computed, input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { ionTrendingDownOutline, ionWalletOutline } from '@ng-icons/ionicons';
 import { CurrencyPipe } from '@angular/common';
-import { IExpense } from '../types/expense';
+import { IExpense } from '../../types/expense';
 
 @Component({
   selector: 'app-header',

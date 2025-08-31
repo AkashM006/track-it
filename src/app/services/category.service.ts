@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { API_LINK } from '../api.config';
-import ApiResponse from '../types/response';
-import { ICategory } from '../types/category';
+import ApiResponse from '../../types/response';
+import { ICategory } from '../../types/category';
 
 @Injectable({ providedIn: 'root' })
 export class CategoryService {

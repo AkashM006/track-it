@@ -11,8 +11,8 @@ import {
   ionTrashBinOutline,
 } from '@ng-icons/ionicons';
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { IExpense } from '../types/expense';
-import { ICategory } from '../types/category';
+import { IExpense } from '../../types/expense';
+import { ICategory } from '../../types/category';
 import CATEGORIES from '../categories';
 
 @Component({

@@ -1,16 +1,33 @@
 <app-header [expenses]="expenses()" />
 
+<!-- Expense addition form -->
 @if(isFormOpen()) {
 <app-form-modal [selectedExpense]="selectedExpense()" (close)="onCloseExpenseForm()" />
-} @if(isChartsOpen()) {
+}
+
+<!-- Expenses chart -->
+@if(isChartsOpen()) {
 <app-charts [expenses]="expenses()" />
 }
 
+<!-- Expenses Section -->
+@if(expensesObject()) {
+<!-- Using status -->
+@switch (expensesObject().status) {
+<!--  -->
+@case ('loading') {
+<!-- Todo: Handle better -->
+<div>Loading...</div>
+} @case ('success') {
 <app-expense-list
   (selectExpense)="onSelectExpense($event)"
   [expenses]="expenses()"
   (toggleCharts)="onToggleCharts()"
 />
+} @case ('error') {
+<!-- Todo: Handle better -->
+<div>Error...</div>
+} } }
 
 <button class="add-btn" (click)="onNewExpense()">
   <ng-icon name="ionAddOutline" class="icon" />

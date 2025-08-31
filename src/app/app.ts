@@ -1,11 +1,11 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { Header } from './header/header';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { ionAddOutline } from '@ng-icons/ionicons';
 import { FormModal } from './form-modal/form-modal';
 import { ExpenseList } from './expense-list/expense-list';
 import { Charts } from './charts/charts';
-import { IExpense } from './types/expense';
+import { IExpense } from '../types/expense';
 import ExpenseService from './services/expense.service';
 
 @Component({
@@ -15,19 +15,16 @@ import ExpenseService from './services/expense.service';
   styleUrl: './app.scss',
   viewProviders: [provideIcons({ ionAddOutline })],
 })
-export class App implements OnInit {
+export class App {
   isFormOpen = signal(false);
   isChartsOpen = signal(false);
 
-  expenses = signal<IExpense[]>([]);
   expenseService = inject(ExpenseService);
-  selectedExpense = signal<IExpense | null>(null);
+  destroyRef = inject(DestroyRef);
 
-  async ngOnInit() {
-    const result = await this.expenseService.getAllExpenses();
-    if (!result || !result.success || !result.results) return;
-    this.expenses.set(result.results);
-  }
+  expensesObject = this.expenseService.getAllExpenses();
+  expenses = computed(() => this.expensesObject().data ?? []);
+  selectedExpense = signal<IExpense | null>(null);
 
   onNewExpense() {
     this.isFormOpen.set(true);

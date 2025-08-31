@@ -10,9 +10,9 @@ import {
 } from '@ng-icons/ionicons';
 import CATEGORIES from '../categories';
 import { FormsModule } from '@angular/forms';
-import { ICategory } from '../types/category';
+import { ICategory } from '../../types/category';
 import ExpenseService from '../services/expense.service';
-import { IExpense } from '../types/expense';
+import { IExpense } from '../../types/expense';
 import Utils from '../../utils';
 import { CategoryService } from '../services/category.service';
 

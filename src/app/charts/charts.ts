@@ -15,7 +15,7 @@ import {
 } from 'chart.js';
 import { CurrencyPipe } from '@angular/common';
 import Utils from '../../utils';
-import { IExpense } from '../types/expense';
+import { IExpense } from '../../types/expense';
 
 @Component({
   selector: 'app-charts',

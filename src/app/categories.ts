@@ -1,4 +1,4 @@
-import { ICategory } from './types/category';
+import { ICategory } from '../types/category';
 
 const CATEGORIES: ICategory[] = [
   {
