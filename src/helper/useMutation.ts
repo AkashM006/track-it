@@ -1,11 +1,6 @@
 import { signal } from '@angular/core';
 import { catchError, Observable, of, Subscription, tap } from 'rxjs';
-
-export type MutationState<T> = {
-  status: 'success' | 'loading' | 'error' | 'idle';
-  error: string | null;
-  data: T | null;
-};
+import { MutationState } from '../types/asyncState';
 
 export type UseMutationOptions<T> = {
   onSuccess?: (data: T) => void;

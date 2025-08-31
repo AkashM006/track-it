@@ -16,64 +16,22 @@ class ExpenseService {
 
   private http = inject(HttpClient);
 
-  getAllExpenses(): Signal<ResourceState<IExpense[]>> {
-    const expenses$ = this.http
-      .get<ApiResponse<IExpense[]>>(`${API_LINK}${this.expenseRoute}`)
-      .pipe(
-        // Transforming Data
-        // Todo: The logic to handle amount must change
-        map((result) => {
-          if (result.results) {
-            const expenses = result.results!.map((expense) => ({
-              ...expense,
-              amount: Number(expense.amount),
-              date: new Date(expense.date),
-            }));
-            return {
-              status: 'success' as const,
-              data: expenses,
-              error: null,
-            };
-          }
-          return {
-            status: 'success' as const,
-            data: [],
-            error: null,
-          };
-        }),
-        // Handling error
-        catchError((error: HttpErrorResponse) => {
-          const errorObject = error.error;
-
-          if (errorObject instanceof ProgressEvent) {
-            return of({
-              status: 'error' as const,
-              error: 'Unable to reach server',
-              data: null,
-            });
-          }
-
-          const apiError = errorObject as ApiResponse<null>;
-
-          return of({
-            status: 'error' as const,
-            error: apiError.msg,
-            data: null,
-          });
-        }),
-        // Starting with a loading state
-        startWith({ status: 'loading' as const, data: null, error: null })
-      );
-
-    type ExpenseResourceState = ResourceState<IExpense[]>;
-
-    return toSignal<ExpenseResourceState, ExpenseResourceState>(expenses$, {
-      initialValue: {
-        status: 'loading',
-        data: null,
-        error: null,
-      },
-    });
+  getAllExpenses(): Observable<IExpense[]> {
+    return this.http.get<ApiResponse<IExpense[]>>(`${API_LINK}${this.expenseRoute}`).pipe(
+      // Transforming Data
+      // Todo: The logic to handle amount must change
+      map((result) => {
+        if (result.results) {
+          const expenses = result.results!.map((expense) => ({
+            ...expense,
+            amount: Number(expense.amount),
+            date: new Date(expense.date),
+          }));
+          return expenses;
+        }
+        return [];
+      })
+    );
   }
 
   addExpense(newExpense: IExpense): Observable<IExpense | undefined> {

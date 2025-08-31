@@ -1,4 +1,4 @@
-import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
+import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { Header } from './header/header';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { ionAddOutline } from '@ng-icons/ionicons';
@@ -7,6 +7,7 @@ import { ExpenseList } from './expense-list/expense-list';
 import { Charts } from './charts/charts';
 import { IExpense } from '../types/expense';
 import ExpenseService from './services/expense.service';
+import useQuery from '../helper/useQuery';
 
 @Component({
   selector: 'app-root',
@@ -15,16 +16,26 @@ import ExpenseService from './services/expense.service';
   styleUrl: './app.scss',
   viewProviders: [provideIcons({ ionAddOutline })],
 })
-export class App {
+export class App implements OnInit, OnDestroy {
   isFormOpen = signal(false);
   isChartsOpen = signal(false);
+  selectedExpense = signal<IExpense | null>(null);
 
   expenseService = inject(ExpenseService);
-  destroyRef = inject(DestroyRef);
 
-  expensesObject = this.expenseService.getAllExpenses();
-  expenses = computed(() => this.expensesObject().data ?? []);
-  selectedExpense = signal<IExpense | null>(null);
+  expensesQuery = useQuery(() => this.expenseService.getAllExpenses(), {
+    initialData: [],
+    placeholder: [],
+  });
+  expenses = computed(() => this.expensesQuery.state().data);
+
+  ngOnInit(): void {
+    this.expensesQuery.execute();
+  }
+
+  ngOnDestroy(): void {
+    this.expensesQuery.destroy();
+  }
 
   onNewExpense() {
     this.isFormOpen.set(true);
@@ -46,7 +57,10 @@ export class App {
   }
 
   onAddExpense(expense: IExpense) {
-    if (this.expensesObject().status !== 'success') return;
-    // Todo: Start here. Must be able to add expense to expense Object somehow
+    if (this.expensesQuery.state().status !== 'success') return;
+    this.expensesQuery.state.update((prev) => ({
+      ...prev,
+      data: [...prev.data, expense],
+    }));
   }
 }

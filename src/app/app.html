@@ -10,10 +10,8 @@
 <app-charts [expenses]="expenses()" />
 }
 
-<!-- Expenses Section -->
-@if(expensesObject()) {
 <!-- Using status -->
-@switch (expensesObject().status) {
+@switch (expensesQuery.state().status) {
 <!--  -->
 @case ('loading') {
 <!-- Todo: Handle better -->
@@ -27,7 +25,7 @@
 } @case ('error') {
 <!-- Todo: Handle better -->
 <div>Error...</div>
-} } }
+} }
 
 <button class="add-btn" (click)="onNewExpense()">
   <ng-icon name="ionAddOutline" class="icon" />
