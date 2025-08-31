@@ -79,9 +79,7 @@
 </app-modal>
 }
 
-<!--  -->
-@if(false) {
-<div class="modal" (click)="onClose()">
-  <div class="content" (click)="$event.stopPropagation()"></div>
-</div>
+<!-- Show Loader when actions are loading -->
+@if(addExpenseMutation.state().status === 'loading') {
+<app-loader />
 }

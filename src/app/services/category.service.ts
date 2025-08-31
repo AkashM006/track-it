@@ -13,13 +13,6 @@ export class CategoryService {
 
   private http = inject(HttpClient);
 
-  // async getAllCategories() {
-  //   const response = await fetch(`${API_LINK}${this.categoriesLink}`);
-  //   const result: ApiResponse<ICategory[]> = await response.json();
-
-  //   return result;
-  // }
-
   getAllCategories() {
     const categories$ = this.http
       .get<ApiResponse<ICategory[]>>(`${API_LINK}${this.categoriesLink}`)

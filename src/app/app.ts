@@ -44,4 +44,9 @@ export class App {
     this.selectedExpense.set(expense);
     this.isFormOpen.set(true);
   }
+
+  onAddExpense(expense: IExpense) {
+    if (this.expensesObject().status !== 'success') return;
+    // Todo: Start here. Must be able to add expense to expense Object somehow
+  }
 }

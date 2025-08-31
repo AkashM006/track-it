@@ -1,5 +1,5 @@
-import { Component, computed, inject, input, OnInit, output, signal } from '@angular/core';
-import { NgIcon, provideIcons } from '@ng-icons/core';
+import { Component, computed, inject, input, OnDestroy, output, signal } from '@angular/core';
+import { provideIcons } from '@ng-icons/core';
 import {
   ionAirplaneOutline,
   ionBagHandleOutline,
@@ -17,6 +17,7 @@ import Utils from '../../utils';
 import { CategoryService } from '../services/category.service';
 import { Loader } from '../common/loader/loader';
 import { Modal } from '../common/modal/modal';
+import useMutation from '../../helper/useMutation';
 
 @Component({
   selector: 'app-form-modal',
@@ -34,23 +35,39 @@ import { Modal } from '../common/modal/modal';
     }),
   ],
 })
-export class FormModal {
+export class FormModal implements OnDestroy {
+  // Inputs & Outputs
+  selectedExpense = input.required<IExpense | null>();
   close = output();
+  addExpense = output<IExpense>();
+  // Services
+  expenseService = inject(ExpenseService);
+  categoriesService = inject(CategoryService);
+
+  // Signals used in templates
   expenseForm = signal({
     date: Utils.dateToString(new Date()),
     name: '',
     amount: '',
     selectedCategory: CATEGORIES[0],
   });
-  expenseService = inject(ExpenseService);
-  categoriesService = inject(CategoryService);
-  selectedExpense = input.required<IExpense | null>();
 
-  // categories = signal<ICategory[]>();
   categoriesObject = this.categoriesService.getAllCategories();
   categories = computed(() => this.categoriesObject().data ?? []);
 
   isEditForm = computed(() => this.selectedExpense() !== null);
+
+  addExpenseMutation = useMutation(
+    (newExpense: IExpense) => this.expenseService.addExpense(newExpense),
+    {
+      onSuccess: this.onExpenseAdded.bind(this),
+      onError: this.onAddExpenseError.bind(this),
+    }
+  );
+
+  ngOnDestroy(): void {
+    this.addExpenseMutation.destroy();
+  }
 
   onClose() {
     this.close.emit();
@@ -74,13 +91,29 @@ export class FormModal {
       category: this.expenseForm().selectedCategory,
       date: Utils.stringToDate(this.expenseForm().date),
     };
+
     if (!this.isEditForm()) {
-      await this.expenseService.addExpense(newExpense);
-    } else {
-      newExpense.id = this.selectedExpense()!.id;
-      await this.expenseService.updateExpense(newExpense);
+      this.addExpenseMutation.mutate(newExpense);
     }
-    this.close.emit();
+    // if (!this.isEditForm()) {
+    //   await this.expenseService.addExpense(newExpense);
+    // } else {
+    //   newExpense.id = this.selectedExpense()!.id;
+    //   await this.expenseService.updateExpense(newExpense);
+    // }
+  }
+
+  onExpenseAdded(expense: IExpense | undefined) {
+    // Todo: add to list
+    if (expense) {
+      this.addExpense.emit(expense);
+    }
+    this.onClose();
+  }
+
+  onAddExpenseError(error: string) {
+    // Todo: Change to toast later
+    alert(error);
   }
 
   setDate(event: Event) {
