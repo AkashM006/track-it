@@ -70,11 +70,19 @@ export class FormModal implements OnInit, OnDestroy {
 
   isEditForm = computed(() => this.selectedExpense() !== null);
 
+  // Mutations
   addExpenseMutation = useMutation(
     (newExpense: IExpense) => this.expenseService.addExpense(newExpense),
     {
       onSuccess: this.onExpenseAdded.bind(this),
       onError: this.onAddExpenseError.bind(this),
+    }
+  );
+  updateExpenseMutation = useMutation(
+    (newExpense: IExpense) => this.expenseService.updateExpense(newExpense),
+    {
+      onSuccess: this.onExpenseUpdated.bind(this),
+      onError: this.onUpdateExpenseError.bind(this),
     }
   );
 
@@ -130,6 +138,15 @@ export class FormModal implements OnInit, OnDestroy {
 
   onAddExpenseError(error: string) {
     // Todo: Change to toast later
+    alert(error);
+  }
+
+  onExpenseUpdated(expense: IExpense | undefined) {
+    // Todo
+  }
+
+  onUpdateExpenseError(error: string) {
+    // Todo: Show toast
     alert(error);
   }
 

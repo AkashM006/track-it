@@ -1,6 +1,8 @@
 import { signal } from '@angular/core';
-import { catchError, Observable, of, Subscription, tap } from 'rxjs';
+import { catchError, Observable, Subscription, tap, throwError } from 'rxjs';
 import { MutationState } from '../types/asyncState';
+import { HttpErrorResponse } from '@angular/common/http';
+import ApiResponse from '../types/response';
 
 export type UseMutationOptions<T> = {
   onSuccess?: (data: T) => void;
@@ -40,14 +42,23 @@ const useMutation = <TArgs extends any[], TResult>(
           });
           options?.onSuccess?.(data);
         }),
-        catchError((err: string) => {
+        catchError((error: HttpErrorResponse) => {
+          const errorObject = error.error;
+
+          let errorMsg = '';
+          if (errorObject instanceof ProgressEvent) {
+            errorMsg = 'Unable to reach server';
+          } else {
+            errorMsg = (errorObject as ApiResponse<null>).msg;
+          }
+
           state.set({
-            error: err,
+            error: errorMsg,
             data: null,
             status: 'error',
           });
-          options?.onError?.(err);
-          return of(null);
+          options?.onError?.(errorMsg);
+          return throwError(() => errorMsg);
         })
       )
       .subscribe();

@@ -2,7 +2,11 @@
 
 <!-- Expense addition form -->
 @if(isFormOpen()) {
-<app-form-modal [selectedExpense]="selectedExpense()" (close)="onCloseExpenseForm()" />
+<app-form-modal
+  [selectedExpense]="selectedExpense()"
+  (close)="onCloseExpenseForm()"
+  (addExpense)="onAddExpense($event)"
+/>
 }
 
 <!-- Expenses chart -->

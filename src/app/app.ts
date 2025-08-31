@@ -63,4 +63,8 @@ export class App implements OnInit, OnDestroy {
       data: [...prev.data, expense],
     }));
   }
+
+  onUpdateExpense(expense: IExpense) {
+    // Todo
+  }
 }

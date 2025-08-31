@@ -2,10 +2,8 @@ import { inject, Injectable, Signal } from '@angular/core';
 import { IExpense } from '../../types/expense';
 import ApiResponse from '../../types/response';
 import { API_LINK } from '../api.config';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, map, Observable, of, startWith, throwError } from 'rxjs';
-import ResourceState from '../../types/resourceState';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { HttpClient } from '@angular/common/http';
+import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 class ExpenseService {
@@ -19,11 +17,11 @@ class ExpenseService {
   getAllExpenses(): Observable<IExpense[]> {
     return this.http.get<ApiResponse<IExpense[]>>(`${API_LINK}${this.expenseRoute}`).pipe(
       // Transforming Data
-      // Todo: The logic to handle amount must change
       map((result) => {
         if (result.results) {
           const expenses = result.results!.map((expense) => ({
             ...expense,
+            // Todo: The logic to handle amount must change
             amount: Number(expense.amount),
             date: new Date(expense.date),
           }));
@@ -50,22 +48,24 @@ class ExpenseService {
     return this.http
       .post<ApiResponse<IExpense>>(`${API_LINK}${this.expenseRoute}`, requestBody)
       .pipe(
-        map((response) => response.results),
-        catchError((error) => {
-          const errorObject = error.error;
+        map((response) => {
+          const expense = response.results;
 
-          if (errorObject instanceof ProgressEvent) {
-            return throwError(() => 'Unable to reach server');
+          if (expense) {
+            return {
+              ...expense,
+              // Todo: The logic to handle amount must change
+              amount: Number(expense.amount),
+              date: new Date(expense.date),
+            };
           }
 
-          const apiError = errorObject as ApiResponse<null>;
-
-          return throwError(() => apiError.msg);
+          return undefined;
         })
       );
   }
 
-  async updateExpense(newExpense: IExpense) {
+  updateExpense(newExpense: IExpense): Observable<IExpense | undefined> {
     const { name, amount, date } = newExpense;
     const categoryId = newExpense.category.id;
 
@@ -78,11 +78,11 @@ class ExpenseService {
       },
     };
 
-    const response = await fetch(`${API_LINK}${this.expenseRoute}?id=${newExpense.id}`, {
-      method: 'PUT',
-      headers: this.requestHeaders,
-      body: JSON.stringify(requestBody),
-    });
+    return this.http
+      .put<ApiResponse<IExpense>>(`${API_LINK}${this.expenseRoute}?id=${newExpense.id}`, {
+        requestBody,
+      })
+      .pipe(map((response) => response.results));
   }
 
   async deleteExpense(id: IExpense['id']) {
