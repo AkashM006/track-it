@@ -1,4 +1,13 @@
-import { Component, computed, inject, input, OnDestroy, output, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  OnDestroy,
+  OnInit,
+  output,
+  signal,
+} from '@angular/core';
 import { provideIcons } from '@ng-icons/core';
 import {
   ionAirplaneOutline,
@@ -18,6 +27,7 @@ import { CategoryService } from '../services/category.service';
 import { Loader } from '../common/loader/loader';
 import { Modal } from '../common/modal/modal';
 import useMutation from '../../helper/useMutation';
+import useQuery from '../../helper/useQuery';
 
 @Component({
   selector: 'app-form-modal',
@@ -35,7 +45,7 @@ import useMutation from '../../helper/useMutation';
     }),
   ],
 })
-export class FormModal implements OnDestroy {
+export class FormModal implements OnInit, OnDestroy {
   // Inputs & Outputs
   selectedExpense = input.required<IExpense | null>();
   close = output();
@@ -52,8 +62,11 @@ export class FormModal implements OnDestroy {
     selectedCategory: CATEGORIES[0],
   });
 
-  categoriesObject = this.categoriesService.getAllCategories();
-  categories = computed(() => this.categoriesObject().data ?? []);
+  categoriesQuery = useQuery(() => this.categoriesService.getAllCategories(), {
+    initialData: [],
+    placeholder: [],
+  });
+  categories = computed(() => this.categoriesQuery.state().data);
 
   isEditForm = computed(() => this.selectedExpense() !== null);
 
@@ -64,6 +77,10 @@ export class FormModal implements OnDestroy {
       onError: this.onAddExpenseError.bind(this),
     }
   );
+
+  ngOnInit(): void {
+    this.categoriesQuery.execute();
+  }
 
   ngOnDestroy(): void {
     this.addExpenseMutation.destroy();
