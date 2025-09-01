@@ -8,6 +8,7 @@
       <label for="expense-name">Expense Name</label>
       <div class="form-input">
         <input
+          #nameInput
           type="text"
           name="expense-name"
           id="expense-name"
@@ -54,7 +55,7 @@
         <button
           type="button"
           class="category-item"
-          [class.selected]="expenseForm().selectedCategory.id === category.id"
+          [class.selected]="expenseForm().category?.id === category.id"
           (click)="onSelectCategory(category)"
         >
           <!-- <ng-icon class="icon" [name]="category.iconName" /> -->
@@ -66,7 +67,11 @@
 
     <div class="btns-container">
       <button type="button" class="btn btn-secondary" (click)="onClose()">Cancel</button>
-      <button type="submit" class="btn btn-primary" [disabled]="!newExpenseForm.form.valid">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!newExpenseForm.form.valid || !expenseForm().category"
+      >
         Submit
       </button>
     </div>

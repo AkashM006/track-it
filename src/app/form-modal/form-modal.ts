@@ -1,6 +1,8 @@
 import {
   Component,
   computed,
+  effect,
+  ElementRef,
   inject,
   input,
   OnDestroy,
@@ -18,7 +20,6 @@ import {
   ionEllipsisHorizontalOutline,
   ionFastFoodOutline,
 } from '@ng-icons/ionicons';
-import CATEGORIES from '../categories';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ICategory } from '../../types/category';
 import ExpenseService from '../services/expense.service';
@@ -58,11 +59,17 @@ export class FormModal implements OnInit, OnDestroy {
   categoriesService = inject(CategoryService);
 
   // Signals used in templates
-  expenseForm = signal({
+  expenseForm = signal<{
+    date: string;
+    name: string;
+    amount: string;
+    category?: ICategory;
+  }>({
     date: Utils.dateToString(new Date()),
     name: '',
     amount: '',
-    selectedCategory: CATEGORIES[0],
+    // selectedCategory: CATEGORIES[0],
+    category: undefined,
   });
   isEditForm = computed(() => this.selectedExpense() !== null);
 
@@ -91,7 +98,17 @@ export class FormModal implements OnInit, OnDestroy {
   // signals derived from query, mutations
   categories = computed(() => this.categoriesQuery.state().data);
 
+  // View Queries
   form = viewChild<NgForm>('newExpenseForm');
+  nameInput = viewChild<ElementRef<HTMLInputElement>>('nameInput');
+
+  constructor() {
+    effect(() => {
+      if (this.categoriesQuery.state().status === 'success') {
+        this.nameInput()?.nativeElement.focus();
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.categoriesQuery.execute();
@@ -101,7 +118,7 @@ export class FormModal implements OnInit, OnDestroy {
         date: Utils.dateToString(selectedExp.date),
         name: selectedExp.name,
         amount: selectedExp.amount.toString(),
-        selectedCategory: selectedExp.category,
+        category: selectedExp.category,
       });
     }
   }
@@ -117,20 +134,29 @@ export class FormModal implements OnInit, OnDestroy {
   onSelectCategory(category: ICategory) {
     this.expenseForm.update((prev) => ({
       ...prev,
-      selectedCategory: category,
+      category,
     }));
   }
 
-  // Todo: When modal is opened focus on the input automatically
-
   async onSubmit() {
-    // Todo: Validate the amount, date and then store in, if fails then show toast
+    // Todo: Validate the amount, date and then store in, if fails then show toast.
+    // Maybe using some validation library
+
+    const formValues = this.expenseForm();
+    const { name, amount, category, date } = formValues;
+
+    if (!category) {
+      // Todo: Show some toast or something
+      alert('Select a category to add an expense');
+      return;
+    }
+
     const newExpense: IExpense = {
       id: '',
-      name: this.expenseForm().name,
-      amount: +this.expenseForm().amount,
-      category: this.expenseForm().selectedCategory,
-      date: Utils.stringToDate(this.expenseForm().date),
+      name: name,
+      amount: +amount,
+      category,
+      date: Utils.stringToDate(date),
     };
 
     if (!this.isEditForm()) {

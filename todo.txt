@@ -23,8 +23,11 @@ For Later:
 6. Removed icons in categories, UI change required for form
 7. Using some kind of state management solution
 8. When clicking delete modal is opening ( DONE )
-9. Add category selection validation as well in form-modal
+9. Add category selection validation as well in form-modal ( DONE )
 10. Change useMutation to return getters instead of direct signal
 11. Move form reseting line to ts file and call it only when success ( DONE )
 12. Adding to expenses reactively only if all the expenses are loaded, this must be changed
-13. In form selected category must null or a category, also must be validated properly
+13. In form selected category must null or a category, also must be validated properly ( DONE )
+14. expenses-list also uses categories. Provide a solution. Must be fetched only in one place. 2 approaches:
+    - Combine to single api calls with all categories and all expenses for home page
+    - Add another api call and persist it so that other components can also use it
