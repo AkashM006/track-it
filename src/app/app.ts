@@ -8,10 +8,11 @@ import { Charts } from './charts/charts';
 import { IExpense } from '../types/expense';
 import ExpenseService from './services/expense.service';
 import useQuery from '../helper/useQuery';
+import { Loader } from './common/loader/loader';
 
 @Component({
   selector: 'app-root',
-  imports: [Header, NgIcon, FormModal, ExpenseList, Charts],
+  imports: [Header, NgIcon, FormModal, ExpenseList, Charts, Loader],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   viewProviders: [provideIcons({ ionAddOutline })],

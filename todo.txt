@@ -8,14 +8,18 @@ For Later:
 1. Defer loading of expense modal form
 2. Convert expense amount to use decimal js and create new pipes to display them or just do learn how to show as currency and change the total expense logic
 3. Setup a loading state in places where Api is used;
-    - Getting all expenses
+    - Getting all expenses ( DONE )
     - Getting all categories ( DONE )
     - Creating new expense ( DONE )
+    - Updating expense ( DONE )
+    - Deleting expense ( DONE )
 4. Setup import alias
 5. Error handling in service level and UI level:
-    - Getting all expenses
+    - Getting all expenses ( DONE )
     - Getting all categories ( DONE )
     - Creating new expense ( DONE )
+    - Updating expense ( DONE )
+    - Deleting expense ( DONE )
 6. Removed icons in categories, UI change required for form
 7. Using some kind of state management solution
 8. When clicking delete modal is opening ( DONE )

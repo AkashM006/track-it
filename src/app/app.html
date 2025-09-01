@@ -15,12 +15,11 @@
 <app-charts [expenses]="expenses()" />
 }
 
-<!-- Using status -->
+<!-- Using status to conditionally render -->
 @switch (expensesQuery.state().status) {
 <!--  -->
 @case ('loading') {
-<!-- Todo: Handle better -->
-<div>Loading...</div>
+<app-loader />
 } @case ('success') {
 <app-expense-list
   (selectExpense)="onSelectExpense($event)"
@@ -28,9 +27,11 @@
   (toggleCharts)="onToggleCharts()"
   (deleteExpense)="onDeleteExpense($event)"
 />
-} @case ('error') {
-<!-- Todo: Handle better -->
-<div>Error...</div>
+} @default {
+<div class="error container">
+  <h3>Whoops!</h3>
+  <p>{{ expensesQuery.state().error ?? 'Something went wrong' }}</p>
+</div>
 } }
 
 <button class="add-btn" (click)="onNewExpense()">
