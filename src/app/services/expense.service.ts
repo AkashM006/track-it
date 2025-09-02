@@ -37,12 +37,10 @@ class ExpenseService {
     const categoryId = newExpense.category.id;
 
     const requestBody = {
-      expense: {
-        name,
-        amount,
-        date,
-        categoryId,
-      },
+      name,
+      amount,
+      date,
+      categoryId,
     };
 
     return this.http
@@ -70,12 +68,10 @@ class ExpenseService {
     const categoryId = newExpense.category.id;
 
     const requestBody = {
-      expense: {
-        name,
-        amount,
-        date,
-        categoryId,
-      },
+      name,
+      amount,
+      date,
+      categoryId,
     };
 
     return this.http

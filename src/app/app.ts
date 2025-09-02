@@ -70,11 +70,10 @@ export class App implements OnInit, OnDestroy {
     this.expensesQuery.state.update((prev) => ({
       ...prev,
       data: prev.data.map((e) => {
-        if (e.id === expense.id) return { ...expense };
+        if (e.id !== expense.id) return e;
 
         return {
           ...expense,
-          id: e.id,
         };
       }),
     }));
