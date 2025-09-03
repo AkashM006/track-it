@@ -1,6 +1,10 @@
 TODO:
 
 Planned:
+Week 3: ( Sep 3 - Sep 9 )
+1. Create UI for login and register routes
+2. Integrate login and register using jwt authentication
+
 Week 2: ( Aug 27 - Sep 2 )
 1. Integration with backend once that is complete ( DONE )
 
