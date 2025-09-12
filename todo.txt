@@ -1,7 +1,11 @@
 TODO:
 
 Planned:
-Week 3: ( Sep 3 - Sep 9 )
+Week 4: ( Sep 10 - Sep 16 ) ( Did nothing ) ( Excuse: Had family function ) :-)
+1. Create UI for login and register routes
+2. Integrate login and register using jwt authentication
+
+Week 3: ( Sep 3 - Sep 9 ) ( Did nothing ) ( Excuse: Had family function ) :-)
 1. Create UI for login and register routes
 2. Integrate login and register using jwt authentication
 
