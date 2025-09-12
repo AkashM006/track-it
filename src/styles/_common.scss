@@ -29,6 +29,8 @@ input {
 
 .btn {
   border-radius: 1em;
+  // Todo: Test the below
+  // border-radius: 0.5em;
   font-weight: bold;
   cursor: pointer;
   padding: 0.5em;
@@ -39,6 +41,12 @@ input {
   &.btn-primary {
     background: $primary;
     color: $on-primary;
+  }
+  &.btn-text {
+    padding: 0;
+    color: $primary-clr;
+    background: transparent;
+    border-radius: 0.5em;
   }
 }
 

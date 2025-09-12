@@ -39,3 +39,4 @@ For Later:
 14. expenses-list also uses categories. Provide a solution. Must be fetched only in one place. 2 approaches:
     - Combine to single api calls with all categories and all expenses for home page
     - Add another api call and persist it so that other components can also use it
+15. Implement a not found route

@@ -1,0 +1,38 @@
+<div class="body">
+  <div class="form">
+    <div class="title-container">
+      <h2>{{ isLogin() ? 'Welcome Back' : 'Create Account' }}</h2>
+      <p>Login to continue to Track-It</p>
+    </div>
+
+    <form>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <div class="form-input">
+          <input type="email" name="email" id="email" placeholder="Enter your email" required />
+        </div>
+      </div>
+      <div class="form-group password-group">
+        <label for="password">Password</label>
+        <div class="form-input">
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
+      </div>
+      <button class="btn btn-primary action-btn" type="submit">Sign In</button>
+      <div class="auth-toggle-container">
+        <p>Don't have an account?</p>
+        <button class="btn btn-text" type="button" (click)="onToggleAuthType()">
+          Register here
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- [(ngModel)]="expenseForm().amount" -->

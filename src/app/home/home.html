@@ -1,0 +1,39 @@
+<app-header [expenses]="expenses()" />
+
+<!-- Expense addition form -->
+@if(isFormOpen()) {
+<app-form-modal
+  [selectedExpense]="selectedExpense()"
+  (close)="onCloseExpenseForm()"
+  (addExpense)="onAddExpense($event)"
+  (updateExpense)="onUpdateExpense($event)"
+/>
+}
+
+<!-- Expenses chart -->
+@if(isChartsOpen()) {
+<app-charts [expenses]="expenses()" />
+}
+
+<!-- Using status to conditionally render -->
+@switch (expensesQuery.state().status) {
+<!--  -->
+@case ('loading') {
+<app-loader />
+} @case ('success') {
+<app-expense-list
+  (selectExpense)="onSelectExpense($event)"
+  [expenses]="expenses()"
+  (toggleCharts)="onToggleCharts()"
+  (deleteExpense)="onDeleteExpense($event)"
+/>
+} @default {
+<div class="error container">
+  <h3>Whoops!</h3>
+  <p>{{ expensesQuery.state().error ?? 'Something went wrong' }}</p>
+</div>
+} }
+
+<button class="add-btn" (click)="onNewExpense()">
+  <ng-icon name="ionAddOutline" class="icon" />
+</button>
