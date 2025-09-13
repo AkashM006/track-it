@@ -11,40 +11,80 @@
       </p>
     </div>
 
-    <form>
+    <form #authFormRef="ngForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="email">Email</label>
         <div class="form-input">
-          <input type="email" name="email" id="email" placeholder="Enter your email" required />
+          <input
+            [(ngModel)]="authForm().email"
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Enter your email"
+            required
+            email
+          />
+        </div>
+        @if(authFormRef.submitted && authFormRef.controls['email']['invalid']) {
+        <p class="error">{{ authFormRef.controls['email'] | formError : 'User email' }}</p>
+        }
+      </div>
+      @if(!isLogin()) {
+      <div class="form-group">
+        <label for="name">Name</label>
+        <div class="form-input">
+          <input
+            [(ngModel)]="authForm().confirmPassword"
+            type="name"
+            name="name"
+            id="name"
+            placeholder="Enter your name"
+            required
+            minlength="3"
+            maxlength="64"
+          />
         </div>
       </div>
+      }
       <div class="form-group">
         <label for="password">Password</label>
         <div class="form-input">
           <input
+            [(ngModel)]="authForm().password"
             type="password"
             name="password"
             id="password"
             placeholder="Enter your password"
             required
+            [minlength]="isLogin() ? '' : '8'"
+            maxlength="64"
           />
         </div>
+        @if(authFormRef.submitted && authFormRef.controls['password']['invalid']) {
+        <p class="error">{{ authFormRef.controls['password'] | formError : 'Password' }}</p>
+        }
       </div>
       @if(!isLogin()) {
+      <!-- Todo: Start here and add validations to all fields -->
       <div class="form-group">
         <label for="confirm-password">Confirm Password</label>
         <div class="form-input">
           <input
+            [(ngModel)]="authForm().confirmPassword"
             type="confirm-password"
             name="confirm-password"
             id="confirm-password"
             placeholder="Confirm your password"
             required
+            minlength="8"
+            maxlength="64"
           />
         </div>
       </div>
       }
-      <button class="btn btn-primary action-btn" type="submit">Sign In</button>
+      <button class="btn btn-primary action-btn" type="submit">
+        {{ isLogin() ? 'Sign In' : 'Create Account' }}
+      </button>
       <div class="auth-toggle-container">
         <p>
           {{
@@ -58,5 +98,9 @@
     </form>
   </div>
 </div>
+
+@if( registerMutation.state().status === 'loading' ){
+<app-loader />
+}
 
 <!-- [(ngModel)]="expenseForm().amount" -->

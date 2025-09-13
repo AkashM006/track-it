@@ -91,4 +91,8 @@ input {
       outline-offset: 2px;
     }
   }
+  .error {
+    font-size: 0.75rem;
+    color: $error-accent;
+  }
 }

@@ -7,10 +7,7 @@ import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 class ExpenseService {
-  expenseRoute = '/expenses';
-  requestHeaders = {
-    'Content-Type': 'application/json',
-  };
+  private expenseRoute = '/expenses';
 
   private http = inject(HttpClient);
 

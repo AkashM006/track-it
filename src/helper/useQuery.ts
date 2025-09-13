@@ -48,7 +48,7 @@ const useQuery = <TArgs extends any[], TResult>(
           if (errorObject instanceof ProgressEvent) {
             errorMsg = 'Unable to reach server';
           } else {
-            errorMsg = (errorObject as ApiResponse<null>).msg;
+            errorMsg = (errorObject as ApiResponse<null>).msg?.[0] ?? 'Something went wrong';
           }
           state.set({
             status: 'error',

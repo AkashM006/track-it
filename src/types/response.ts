@@ -1,6 +1,6 @@
 interface ApiResponse<T> {
   success: boolean;
-  msg: string;
+  msg: string[];
   results: T | undefined;
 }
 
