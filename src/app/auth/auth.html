@@ -1,8 +1,14 @@
 <div class="body">
   <div class="form">
+    <div class="icon-container">
+      <ng-icon name="ionWalletOutline" class="icon" />
+    </div>
+
     <div class="title-container">
       <h2>{{ isLogin() ? 'Welcome Back' : 'Create Account' }}</h2>
-      <p>Login to continue to Track-It</p>
+      <p>
+        {{ isLogin() ? 'Login to continue to Track-It' : 'Join Track-It to track your expenses' }}
+      </p>
     </div>
 
     <form>
@@ -12,7 +18,7 @@
           <input type="email" name="email" id="email" placeholder="Enter your email" required />
         </div>
       </div>
-      <div class="form-group password-group">
+      <div class="form-group">
         <label for="password">Password</label>
         <div class="form-input">
           <input
@@ -24,11 +30,29 @@
           />
         </div>
       </div>
+      @if(!isLogin()) {
+      <div class="form-group">
+        <label for="confirm-password">Confirm Password</label>
+        <div class="form-input">
+          <input
+            type="confirm-password"
+            name="confirm-password"
+            id="confirm-password"
+            placeholder="Confirm your password"
+            required
+          />
+        </div>
+      </div>
+      }
       <button class="btn btn-primary action-btn" type="submit">Sign In</button>
       <div class="auth-toggle-container">
-        <p>Don't have an account?</p>
+        <p>
+          {{
+            isLogin() ? `Don't have an account?` : `Already have an account?`
+          }}
+        </p>
         <button class="btn btn-text" type="button" (click)="onToggleAuthType()">
-          Register here
+          {{isLogin() ? `Register here` :`Login here`}}
         </button>
       </div>
     </form>

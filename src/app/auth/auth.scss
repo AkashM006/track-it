@@ -5,8 +5,20 @@
   padding-block: 3em;
 }
 
+.icon-container {
+  width: fit-content;
+  margin-inline: auto;
+  font-size: 2rem;
+  padding: 0.5em;
+  border-radius: 0.35em;
+  background: $primary;
+  color: $on-primary;
+  .icon {
+    display: block;
+  }
+}
+
 .form {
-  //   border: 1px solid black;
   width: 80%;
   max-width: 400px;
 
@@ -19,6 +31,7 @@
 }
 
 .title-container {
+  margin-top: 1em;
   display: flex;
   flex-direction: column;
   gap: 0.5em;
