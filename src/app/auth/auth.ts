@@ -3,7 +3,7 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { ionWalletOutline } from '@ng-icons/ionicons';
 import { FormsModule, NgForm } from '@angular/forms';
 import useMutation from '../../helper/useMutation';
-import { IRegisterUser, IUser } from '../../types/user';
+import { ILoginUser, IRegisterUser, IUser } from '../../types/user';
 import AuthService from '../services/auth.service';
 import { Loader } from '../common/loader/loader';
 import { FormErrorPipe } from '../pipes/form-error/form-error-pipe';
@@ -50,10 +50,14 @@ export class Auth implements OnDestroy {
   registerMutation = useMutation(
     (newUser: IRegisterUser) => this.authService.registerUser(newUser),
     {
-      onSuccess: this.onUserRegistered.bind(this),
+      onSuccess: this.onUserAuthComplete.bind(this),
       onError: this.onUserRegisterError.bind(this),
     }
   );
+  loginMutation = useMutation((user: ILoginUser) => this.authService.loginUser(user), {
+    onSuccess: this.onUserAuthComplete.bind(this),
+    onError: this.onUserLoginError.bind(this),
+  });
 
   // Queries
   userDetailsQuery = useQuery(() => this.userService.getUserDetails(), {
@@ -96,6 +100,11 @@ export class Auth implements OnDestroy {
 
     if (this.isLogin()) {
       // Todo: Call login mutation
+      const user: ILoginUser = {
+        email,
+        password,
+      };
+      this.loginMutation.mutate(user);
     } else {
       if (password !== confirmPassword) {
         // Todo: Show toast
@@ -108,11 +117,14 @@ export class Auth implements OnDestroy {
     }
   }
 
-  onUserRegistered() {
-    // Todo: Use some kind of state management like ngRx to get the user details again and store here
+  onUserAuthComplete() {
     this.userDetailsQuery.execute();
   }
   onUserRegisterError(error: string) {
+    // Todo: Show Toast
+    alert(error);
+  }
+  onUserLoginError(error: string) {
     // Todo: Show Toast
     alert(error);
   }
