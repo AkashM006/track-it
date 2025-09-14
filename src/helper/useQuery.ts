@@ -4,17 +4,20 @@ import ApiResponse from '../types/response';
 import { HttpErrorResponse } from '@angular/common/http';
 import { QueryState } from '../types/asyncState';
 
-export type UseQueryOptions<T> = {
+export type UseQueryOptions<T, TArgs extends any[]> = {
   initialData: T;
   placeholder: T;
+  idleOnInit?: boolean;
+  onSuccess?: (data: T, ...args: TArgs) => void;
+  onError?: (error: string) => void;
 };
 
 const useQuery = <TArgs extends any[], TResult>(
   queryFn: (...args: TArgs) => Observable<TResult>,
-  options: UseQueryOptions<TResult>
+  options: UseQueryOptions<TResult, TArgs>
 ) => {
   const initialValue = {
-    status: 'loading' as const,
+    status: options.idleOnInit ? ('idle' as const) : ('loading' as const),
     error: null,
     data: options.initialData,
   };
@@ -40,6 +43,7 @@ const useQuery = <TArgs extends any[], TResult>(
             data: results ?? options.placeholder,
             error: null,
           });
+          options?.onSuccess?.(results, ...args);
         }),
         catchError((error: HttpErrorResponse) => {
           const errorObject = error.error;
@@ -50,11 +54,15 @@ const useQuery = <TArgs extends any[], TResult>(
           } else {
             errorMsg = (errorObject as ApiResponse<null>).msg?.[0] ?? 'Something went wrong';
           }
+
+          console.error('Query Error: ', errorMsg, errorObject);
+
           state.set({
             status: 'error',
             data: options.placeholder,
             error: errorMsg,
           });
+          options?.onError?.(errorMsg);
           return throwError(() => error);
         })
       )

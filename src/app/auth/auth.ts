@@ -1,12 +1,17 @@
-import { Component, inject, signal, viewChild } from '@angular/core';
+import { Component, inject, OnDestroy, signal, viewChild } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { ionWalletOutline } from '@ng-icons/ionicons';
 import { FormsModule, NgForm } from '@angular/forms';
 import useMutation from '../../helper/useMutation';
-import { IRegisterUser } from '../../types/user';
+import { IRegisterUser, IUser } from '../../types/user';
 import AuthService from '../services/auth.service';
 import { Loader } from '../common/loader/loader';
 import { FormErrorPipe } from '../pipes/form-error/form-error-pipe';
+import useQuery from '../../helper/useQuery';
+import { UserService } from '../services/user.service';
+import { Store } from '@ngrx/store';
+import { onUserRegister } from '../store/user/user.action';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -19,7 +24,7 @@ import { FormErrorPipe } from '../pipes/form-error/form-error-pipe';
     }),
   ],
 })
-export class Auth {
+export class Auth implements OnDestroy {
   // signals used in templates
   isLogin = signal(true);
   authForm = signal<{
@@ -36,7 +41,10 @@ export class Auth {
   authFormRef = viewChild<NgForm>('authFormRef');
 
   // services
-  authService = inject(AuthService);
+  private authService = inject(AuthService);
+  private userService = inject(UserService);
+  private store = inject(Store);
+  private router = inject(Router);
 
   // Mutations
   registerMutation = useMutation(
@@ -47,6 +55,32 @@ export class Auth {
     }
   );
 
+  // Queries
+  userDetailsQuery = useQuery(() => this.userService.getUserDetails(), {
+    initialData: null,
+    placeholder: null,
+    idleOnInit: true,
+    onSuccess: this.onUserDetailSuccess.bind(this),
+    onError: this.onUserDetailError.bind(this),
+  });
+
+  ngOnDestroy(): void {
+    this.registerMutation.destroy();
+    this.userDetailsQuery.destroy();
+  }
+
+  onUserDetailSuccess(user: IUser | null | undefined) {
+    if (!user) {
+      alert('Something went wrong when trying to get user details. Please try again');
+      return;
+    }
+    this.store.dispatch(onUserRegister({ user }));
+    this.router.navigate(['/']);
+  }
+  onUserDetailError(errorMsg: string) {
+    alert(errorMsg);
+  }
+
   onToggleAuthType() {
     this.isLogin.update((prev) => !prev);
   }
@@ -55,10 +89,6 @@ export class Auth {
     const { email, name, password, confirmPassword } = this.authForm();
 
     const isValid = this.authFormRef()?.valid;
-
-    const emailControl = this.authFormRef()?.controls['password'];
-
-    console.log({ ref: emailControl });
 
     if (!isValid) {
       return;
@@ -70,6 +100,7 @@ export class Auth {
       if (password !== confirmPassword) {
         // Todo: Show toast
         alert('Password and confirm password do not match');
+        return;
       }
 
       const newUser: IRegisterUser = { email, name, password };
@@ -79,7 +110,7 @@ export class Auth {
 
   onUserRegistered() {
     // Todo: Use some kind of state management like ngRx to get the user details again and store here
-    alert('User registered');
+    this.userDetailsQuery.execute();
   }
   onUserRegisterError(error: string) {
     // Todo: Show Toast

@@ -30,6 +30,7 @@
     "@angular/router": "^20.1.0",
     "@ng-icons/core": "^32.1.0",
     "@ng-icons/ionicons": "^32.1.0",
+    "@ngrx/store": "^20.0.1",
     "chart.js": "^4.5.0",
     "ng2-charts": "^8.0.0",
     "rxjs": "~7.8.0",

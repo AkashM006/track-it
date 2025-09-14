@@ -49,8 +49,10 @@ const useMutation = <TArgs extends any[], TResult>(
           if (errorObject instanceof ProgressEvent) {
             errorMsg = 'Unable to reach server';
           } else {
-            errorMsg = (errorObject as ApiResponse<null>).msg?.[0] ?? 'Something went wrong';
+            errorMsg = (errorObject as ApiResponse<null>)?.msg?.[0] ?? 'Something went wrong';
           }
+
+          console.error('Mutation Error: ', errorMsg, errorObject);
 
           state.set({
             error: errorMsg,

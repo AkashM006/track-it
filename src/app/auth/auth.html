@@ -34,8 +34,8 @@
         <label for="name">Name</label>
         <div class="form-input">
           <input
-            [(ngModel)]="authForm().confirmPassword"
-            type="name"
+            [(ngModel)]="authForm().name"
+            type="text"
             name="name"
             id="name"
             placeholder="Enter your name"
@@ -73,7 +73,7 @@
         <div class="form-input">
           <input
             [(ngModel)]="authForm().confirmPassword"
-            type="confirm-password"
+            type="password"
             name="confirm-password"
             id="confirm-password"
             placeholder="Confirm your password"
@@ -106,6 +106,7 @@
   </div>
 </div>
 
-@if( registerMutation.state().status === 'loading' ){
+@if( registerMutation.state().status === 'loading' || userDetailsQuery.state().status === 'loading'
+){
 <app-loader />
 }
