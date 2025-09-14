@@ -44,6 +44,9 @@
             maxlength="64"
           />
         </div>
+        @if(authFormRef.submitted && authFormRef.controls['name']['invalid']) {
+        <p class="error">{{ authFormRef.controls['name'] | formError : 'Name' }}</p>
+        }
       </div>
       }
       <div class="form-group">
@@ -65,7 +68,6 @@
         }
       </div>
       @if(!isLogin()) {
-      <!-- Todo: Start here and add validations to all fields -->
       <div class="form-group">
         <label for="confirm-password">Confirm Password</label>
         <div class="form-input">
@@ -80,6 +82,11 @@
             maxlength="64"
           />
         </div>
+        @if(authFormRef.submitted && authFormRef.controls['confirm-password']['invalid']) {
+        <p class="error">
+          {{ authFormRef.controls['confirm-password'] | formError : 'Confirm Password' }}
+        </p>
+        }
       </div>
       }
       <button class="btn btn-primary action-btn" type="submit">
@@ -102,5 +109,3 @@
 @if( registerMutation.state().status === 'loading' ){
 <app-loader />
 }
-
-<!-- [(ngModel)]="expenseForm().amount" -->

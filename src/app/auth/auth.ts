@@ -6,7 +6,7 @@ import useMutation from '../../helper/useMutation';
 import { IRegisterUser } from '../../types/user';
 import AuthService from '../services/auth.service';
 import { Loader } from '../common/loader/loader';
-import { FormErrorPipe } from '../pipes/form-error-pipe';
+import { FormErrorPipe } from '../pipes/form-error/form-error-pipe';
 
 @Component({
   selector: 'app-auth',
