@@ -9,9 +9,8 @@ import { Loader } from '../common/loader/loader';
 import { FormErrorPipe } from '../pipes/form-error/form-error-pipe';
 import useQuery from '../../helper/useQuery';
 import { UserService } from '../services/user.service';
-import { Store } from '@ngrx/store';
-import { onUserRegister } from '../store/user/user.action';
 import { Router } from '@angular/router';
+import { UserStore } from '../store/user/user-store';
 
 @Component({
   selector: 'app-auth',
@@ -43,8 +42,8 @@ export class Auth implements OnDestroy {
   // services
   private authService = inject(AuthService);
   private userService = inject(UserService);
-  private store = inject(Store);
   private router = inject(Router);
+  private userStore = inject(UserStore);
 
   // Mutations
   registerMutation = useMutation(
@@ -78,7 +77,7 @@ export class Auth implements OnDestroy {
       alert('Something went wrong when trying to get user details. Please try again');
       return;
     }
-    this.store.dispatch(onUserRegister({ user }));
+    this.userStore.setUser(user);
     this.router.navigate(['/']);
   }
   onUserDetailError(errorMsg: string) {

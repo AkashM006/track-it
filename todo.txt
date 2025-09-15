@@ -40,3 +40,4 @@ For Later:
     - Combine to single api calls with all categories and all expenses for home page
     - Add another api call and persist it so that other components can also use it
 15. Implement a not found route
+16. Change Observable implementation to Promise and use signals
