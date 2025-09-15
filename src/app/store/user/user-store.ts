@@ -16,7 +16,7 @@ export const UserStore = signalStore(
   },
   withState(initialState),
   withComputed(({ user }) => ({
-    isAuthenticated: computed(() => user !== null && user !== undefined),
+    isAuthenticated: computed(() => !!user()),
   })),
   withMethods((store) => ({
     setUser(user: UserStore['user']) {
