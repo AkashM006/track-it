@@ -3,7 +3,7 @@ TODO:
 Planned:
 Week 4: ( Sep 10 - Sep 16 ) ( Did nothing ) ( Excuse: Had family function ) :-)
 1. Create UI for login and register routes ( DONE )
-2. Integrate login and register
+2. Integrate login and register ( DONE )
 
 Week 3: ( Sep 3 - Sep 9 ) ( Did nothing ) ( Excuse: Had family function ) :-)
 1. Create UI for login and register routes
@@ -41,3 +41,4 @@ For Later:
     - Add another api call and persist it so that other components can also use it
 15. Implement a not found route
 16. Change Observable implementation to Promise and use signals
+17. Show some kind of loading screen when app is initializing

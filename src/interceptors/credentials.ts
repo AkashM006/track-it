@@ -6,6 +6,10 @@ export function credentialsInterceptor(
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> {
   const newRequest = req.clone({
+    setHeaders: {
+      'Cache-Control': 'no-cache',
+      Pragma: 'no-cache',
+    },
     withCredentials: true,
   });
 
