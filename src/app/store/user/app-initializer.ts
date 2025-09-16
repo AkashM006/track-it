@@ -9,7 +9,7 @@ export const appInitializer = async () => {
 
   try {
     const userDetails = await lastValueFrom(userService.getUserDetails());
-    userStore.setUser(userDetails);
+    userStore.login(userDetails);
   } catch (error) {
     // Todo: Show Toast
     console.error(error);

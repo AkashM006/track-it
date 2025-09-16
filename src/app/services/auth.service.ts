@@ -8,13 +8,14 @@ import { API_LINK } from '../api.config';
 class AuthService {
   private authRoute = '/user';
   private http = inject(HttpClient);
+  private link = `${API_LINK}${this.authRoute}`;
 
   registerUser(newUser: IRegisterUser): Observable<unknown> {
     const requestBody = {
       ...newUser,
     };
 
-    return this.http.post(`${API_LINK}${this.authRoute}/register`, requestBody);
+    return this.http.post(`${this.link}/register`, requestBody);
   }
 
   loginUser(user: ILoginUser): Observable<unknown> {
@@ -22,7 +23,11 @@ class AuthService {
       ...user,
     };
 
-    return this.http.post(`${API_LINK}${this.authRoute}/login`, requestBody);
+    return this.http.post(`${this.link}/login`, requestBody);
+  }
+
+  logoutUser(): Observable<unknown> {
+    return this.http.post(`${this.link}/logout`, {});
   }
 }
 

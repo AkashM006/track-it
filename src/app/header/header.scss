@@ -11,18 +11,52 @@
   color: $on-primary;
 }
 
-.logo-container {
+.nav-container {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+// Common style for icons in header
+.icon-text-container {
+  display: flex;
+  align-items: center;
+  .icon-container {
+    border-radius: 0.5em;
+    background-color: $on-primary-container;
+    .icon {
+      display: block;
+    }
+  }
+}
+
+.logo-container {
   gap: 1em;
   .logo-icon-container {
     border-radius: 0.5em;
     background-color: $on-primary-container;
-    padding: 0.5em;
+    padding: 0.75em;
     .logo-icon {
-      display: block;
-      font-size: 1.5rem;
+      font-size: 2rem;
     }
+  }
+}
+
+.logout-container {
+  cursor: pointer;
+  gap: 0.5em;
+  .logout-icon-container {
+    padding: 0.5em;
+    .logout-icon {
+      font-size: 1.2rem;
+    }
+  }
+}
+
+.greeting-container {
+  .user-name {
+    font-size: 0.8rem;
+    color: $on-primary-light;
   }
 }
 

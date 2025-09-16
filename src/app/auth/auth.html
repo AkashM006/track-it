@@ -107,6 +107,6 @@
 </div>
 
 @if( registerMutation.state().status === 'loading' || userDetailsQuery.state().status === 'loading'
-){
+|| loginMutation.state().status === 'loading' ){
 <app-loader />
 }

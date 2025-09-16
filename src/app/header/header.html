@@ -1,10 +1,21 @@
 <header class="header">
   <div class="container header-container">
-    <div class="logo-container">
-      <div class="logo-icon-container">
-        <ng-icon name="ionWalletOutline" class="logo-icon" />
+    <div class="nav-container">
+      <div class="logo-container icon-text-container">
+        <div class="logo-icon-container icon-container">
+          <ng-icon name="ionWalletOutline" class="icon logo-icon" />
+        </div>
+        <div class="greeting-container">
+          <h1>TrackIt</h1>
+          <p class="user-name">Welcome, {{ user()!.name }}</p>
+        </div>
       </div>
-      <h1>TrackIt</h1>
+      <div (click)="onLogout()" class="logout-container icon-text-container">
+        <div class="logout-icon-container icon-container">
+          <ng-icon name="ionLogOutOutline" class="logout-icon icon" />
+        </div>
+        <p>Logout</p>
+      </div>
     </div>
 
     <div class="info-container">
@@ -19,3 +30,7 @@
     </div>
   </div>
 </header>
+
+@if(logoutMutation.state().status === 'loading') {
+<app-loader />
+}

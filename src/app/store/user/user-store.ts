@@ -19,8 +19,11 @@ export const UserStore = signalStore(
     isAuthenticated: computed(() => !!user()),
   })),
   withMethods((store) => ({
-    setUser(user: UserStore['user']) {
+    login(user: UserStore['user']) {
       patchState(store, (state) => ({ ...state, user }));
+    },
+    logout() {
+      patchState(store, (state) => ({ ...state, user: null }));
     },
   }))
 );

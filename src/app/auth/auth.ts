@@ -77,7 +77,7 @@ export class Auth implements OnDestroy {
       alert('Something went wrong when trying to get user details. Please try again');
       return;
     }
-    this.userStore.setUser(user);
+    this.userStore.login(user);
     this.router.navigate(['/']);
   }
   onUserDetailError(errorMsg: string) {
